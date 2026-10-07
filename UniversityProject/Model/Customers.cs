@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection.Emit;
-using UniversityProject.Service;
+using UniversityProject.Services;
 
 namespace UniversityProject.Model;
 
@@ -50,5 +50,10 @@ internal class Customers
         _id = generator.GetNextId();
         Fullname = fullname;
         Address = address;
+    }
+
+    public override string ToString()
+    {
+        return $"ID: {ID} Fullanme: {Fullname} Address: {Address}";
     }
 }

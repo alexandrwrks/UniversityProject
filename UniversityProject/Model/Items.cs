@@ -65,4 +65,10 @@ internal class Items
         Info = info;
         Cost = cost;
     }
+
+    public override string ToString()
+    {
+        return $"ID: {ID}, Name: {Name}, Info: {Info}, Cost: {Cost}";
+    }
+
 }

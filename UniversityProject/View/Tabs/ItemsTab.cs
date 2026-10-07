@@ -6,32 +6,35 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using UniversityProject.Model;
+
 namespace UniversityProject.View.Tabs;
 
 public partial class ItemsTab : UserControl
 {
+    BindingList<Items> items = new BindingList<Items>();
     public ItemsTab()
     {
         InitializeComponent();
+        ItemsListBox.DataSource = items;
     }
 
-    private void splitContainer4_SplitterMoved(object sender, SplitterEventArgs e)
+    private void removeButton_Click(object sender, EventArgs e)
     {
-
+        if (ItemsListBox.SelectedItem is Items item) { 
+            items.Remove(item);
+        }
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void addButton_Click(object sender, EventArgs e)
     {
+        double cost = double.Parse(textBoxCost.Text);
+        Items newItems = new Items(textBoxName.Text, textBoxDescription.Text, cost);
 
-    }
+        items.Add(newItems);
 
-    private void label1_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void label2_Click(object sender, EventArgs e)
-    {
-
+        textBoxCost.Clear();
+        textBoxName.Clear();
+        textBoxDescription.Clear();
     }
 }
