@@ -6,6 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>View/Resources/Store.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="View/Resources/Store.ico" />
+    <Compile Remove="tmp/**/*.cs;tests/**/*.cs" />
+    <EmbeddedResource Remove="tmp/**/*;tests/**/*" />
+    <None Remove="tmp/**/*;tests/**/*" />
+  </ItemGroup>
 </Project>

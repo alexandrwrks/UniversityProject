@@ -1,329 +1,218 @@
-﻿namespace UniversityProject.View.Tabs
+﻿namespace UniversityProject.View.Tabs;
+
+partial class ItemsTab
 {
-    partial class ItemsTab
+    /// <summary>Контейнер компонентов формы.</summary>
+    private System.ComponentModel.IContainer components = null;
+    /// <summary>Основная компоновка вкладки.</summary>
+    private TableLayoutPanel MainLayout;
+    /// <summary>Список записей.</summary>
+    private ListBox ItemsListBox;
+    /// <summary>Кнопки управления списком.</summary>
+    private FlowLayoutPanel ButtonsPanel;
+    /// <summary>Добавление записи.</summary>
+    private Button AddButton;
+    /// <summary>Удаление записи.</summary>
+    private Button RemoveButton;
+    /// <summary>Прокручиваемая область редактора.</summary>
+    private Panel EditorPanel;
+    /// <summary>Поля выбранной записи.</summary>
+    private TableLayoutPanel EditorLayout;
+    /// <summary>Элемент ввода IdTextBox.</summary>
+    private TextBox IdTextBox;
+    /// <summary>Элемент ввода CostTextBox.</summary>
+    private TextBox CostTextBox;
+    /// <summary>Элемент ввода CategoryComboBox.</summary>
+    private ComboBox CategoryComboBox;
+    /// <summary>Элемент ввода NameTextBox.</summary>
+    private TextBox NameTextBox;
+    /// <summary>Элемент ввода DescriptionTextBox.</summary>
+    private TextBox DescriptionTextBox;
+
+    /// <summary>Подпись SelectedItemLabel.</summary>
+    private Label SelectedItemLabel;
+    /// <summary>Подпись IdTextBoxLabel.</summary>
+    private Label IdTextBoxLabel;
+    /// <summary>Подпись CostTextBoxLabel.</summary>
+    private Label CostTextBoxLabel;
+    /// <summary>Подпись CategoryComboBoxLabel.</summary>
+    private Label CategoryComboBoxLabel;
+    /// <summary>Подпись NameLabel.</summary>
+    private Label NameLabel;
+    /// <summary>Подпись DescriptionLabel.</summary>
+    private Label DescriptionLabel;
+    /// <summary>Подпись ListLabel.</summary>
+    private Label ListLabel;
+
+    /// <summary>Освобождает компоненты вкладки.</summary>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
+    }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            splitContainer1 = new SplitContainer();
-            splitContainer2 = new SplitContainer();
-            splitContainer3 = new SplitContainer();
-            label1 = new Label();
-            ItemsListBox = new ListBox();
-            splitContainer4 = new SplitContainer();
-            addButton = new Button();
-            splitContainer5 = new SplitContainer();
-            removeButton = new Button();
-            textBoxDescription = new TextBox();
-            label6 = new Label();
-            textBoxName = new TextBox();
-            label5 = new Label();
-            textBoxCost = new TextBox();
-            label4 = new Label();
-            textBoxID = new TextBox();
-            label3 = new Label();
-            label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
-            splitContainer2.Panel1.SuspendLayout();
-            splitContainer2.Panel2.SuspendLayout();
-            splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
-            splitContainer3.Panel1.SuspendLayout();
-            splitContainer3.Panel2.SuspendLayout();
-            splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
-            splitContainer4.Panel1.SuspendLayout();
-            splitContainer4.Panel2.SuspendLayout();
-            splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer5).BeginInit();
-            splitContainer5.Panel1.SuspendLayout();
-            splitContainer5.SuspendLayout();
-            SuspendLayout();
-            // 
-            // splitContainer1
-            // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            splitContainer1.Panel1.Controls.Add(splitContainer2);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(textBoxDescription);
-            splitContainer1.Panel2.Controls.Add(label6);
-            splitContainer1.Panel2.Controls.Add(textBoxName);
-            splitContainer1.Panel2.Controls.Add(label5);
-            splitContainer1.Panel2.Controls.Add(textBoxCost);
-            splitContainer1.Panel2.Controls.Add(label4);
-            splitContainer1.Panel2.Controls.Add(textBoxID);
-            splitContainer1.Panel2.Controls.Add(label3);
-            splitContainer1.Panel2.Controls.Add(label2);
-            splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 322;
-            splitContainer1.TabIndex = 0;
-            // 
-            // splitContainer2
-            // 
-            splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(0, 0);
-            splitContainer2.Name = "splitContainer2";
-            splitContainer2.Orientation = Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            splitContainer2.Panel1.Controls.Add(splitContainer3);
-            // 
-            // splitContainer2.Panel2
-            // 
-            splitContainer2.Panel2.Controls.Add(splitContainer4);
-            splitContainer2.Size = new Size(322, 450);
-            splitContainer2.SplitterDistance = 395;
-            splitContainer2.TabIndex = 0;
-            // 
-            // splitContainer3
-            // 
-            splitContainer3.Dock = DockStyle.Fill;
-            splitContainer3.Location = new Point(0, 0);
-            splitContainer3.Name = "splitContainer3";
-            splitContainer3.Orientation = Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            splitContainer3.Panel1.Controls.Add(label1);
-            // 
-            // splitContainer3.Panel2
-            // 
-            splitContainer3.Panel2.Controls.Add(ItemsListBox);
-            splitContainer3.Size = new Size(322, 395);
-            splitContainer3.SplitterDistance = 35;
-            splitContainer3.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(36, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Items";
-            // 
-            // ItemsListBox
-            // 
-            ItemsListBox.Dock = DockStyle.Fill;
-            ItemsListBox.FormattingEnabled = true;
-            ItemsListBox.Location = new Point(0, 0);
-            ItemsListBox.Name = "ItemsListBox";
-            ItemsListBox.Size = new Size(322, 356);
-            ItemsListBox.TabIndex = 0;
-            // 
-            // splitContainer4
-            // 
-            splitContainer4.Dock = DockStyle.Fill;
-            splitContainer4.Location = new Point(0, 0);
-            splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            splitContainer4.Panel1.Controls.Add(addButton);
-            // 
-            // splitContainer4.Panel2
-            // 
-            splitContainer4.Panel2.Controls.Add(splitContainer5);
-            splitContainer4.Size = new Size(322, 51);
-            splitContainer4.SplitterDistance = 96;
-            splitContainer4.TabIndex = 0;
-            // 
-            // addButton
-            // 
-            addButton.Dock = DockStyle.Fill;
-            addButton.Location = new Point(0, 0);
-            addButton.Name = "addButton";
-            addButton.Size = new Size(96, 51);
-            addButton.TabIndex = 0;
-            addButton.Text = "Add";
-            addButton.UseVisualStyleBackColor = true;
-            addButton.Click += addButton_Click;
-            // 
-            // splitContainer5
-            // 
-            splitContainer5.Dock = DockStyle.Fill;
-            splitContainer5.Location = new Point(0, 0);
-            splitContainer5.Name = "splitContainer5";
-            // 
-            // splitContainer5.Panel1
-            // 
-            splitContainer5.Panel1.Controls.Add(removeButton);
-            splitContainer5.Size = new Size(222, 51);
-            splitContainer5.SplitterDistance = 99;
-            splitContainer5.TabIndex = 0;
-            // 
-            // removeButton
-            // 
-            removeButton.Dock = DockStyle.Fill;
-            removeButton.Location = new Point(0, 0);
-            removeButton.Name = "removeButton";
-            removeButton.Size = new Size(99, 51);
-            removeButton.TabIndex = 0;
-            removeButton.Text = "Remove";
-            removeButton.UseVisualStyleBackColor = true;
-            removeButton.Click += removeButton_Click;
-            // 
-            // textBoxDescription
-            // 
-            textBoxDescription.Location = new Point(19, 224);
-            textBoxDescription.Multiline = true;
-            textBoxDescription.Name = "textBoxDescription";
-            textBoxDescription.Size = new Size(443, 118);
-            textBoxDescription.TabIndex = 8;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(14, 201);
-            label6.Name = "label6";
-            label6.Size = new Size(70, 15);
-            label6.TabIndex = 7;
-            label6.Text = "Description:";
-            // 
-            // textBoxName
-            // 
-            textBoxName.Location = new Point(14, 118);
-            textBoxName.Multiline = true;
-            textBoxName.Name = "textBoxName";
-            textBoxName.Size = new Size(448, 80);
-            textBoxName.TabIndex = 6;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(14, 100);
-            label5.Name = "label5";
-            label5.Size = new Size(42, 15);
-            label5.TabIndex = 5;
-            label5.Text = "Name:";
-            // 
-            // textBoxCost
-            // 
-            textBoxCost.Location = new Point(54, 59);
-            textBoxCost.Name = "textBoxCost";
-            textBoxCost.Size = new Size(131, 23);
-            textBoxCost.TabIndex = 4;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(14, 67);
-            label4.Name = "label4";
-            label4.Size = new Size(34, 15);
-            label4.TabIndex = 3;
-            label4.Text = "Cost:";
-            // 
-            // textBoxID
-            // 
-            textBoxID.Location = new Point(54, 30);
-            textBoxID.Name = "textBoxID";
-            textBoxID.Size = new Size(131, 23);
-            textBoxID.TabIndex = 2;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(14, 39);
-            label3.Name = "label3";
-            label3.Size = new Size(21, 15);
-            label3.TabIndex = 1;
-            label3.Text = "ID:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(14, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(83, 15);
-            label2.TabIndex = 0;
-            label2.Text = "Selected Items";
-            // 
-            // ItemsTab
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(splitContainer1);
-            Name = "ItemsTab";
-            Size = new Size(800, 450);
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
-            splitContainer2.Panel1.ResumeLayout(false);
-            splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
-            splitContainer2.ResumeLayout(false);
-            splitContainer3.Panel1.ResumeLayout(false);
-            splitContainer3.Panel1.PerformLayout();
-            splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
-            splitContainer3.ResumeLayout(false);
-            splitContainer4.Panel1.ResumeLayout(false);
-            splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
-            splitContainer4.ResumeLayout(false);
-            splitContainer5.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer5).EndInit();
-            splitContainer5.ResumeLayout(false);
-            ResumeLayout(false);
-        }
-
-        #endregion
-
-        private SplitContainer splitContainer1;
-        private SplitContainer splitContainer2;
-        private SplitContainer splitContainer3;
-        private SplitContainer splitContainer4;
-        private Button addButton;
-        private SplitContainer splitContainer5;
-        private Button removeButton;
-        private Label label1;
-        private ListBox ItemsListBox;
-        private Label label2;
-        private Label label4;
-        private TextBox textBoxID;
-        private Label label3;
-        private TextBox textBoxDescription;
-        private Label label6;
-        private TextBox textBoxName;
-        private Label label5;
-        private TextBox textBoxCost;
+    /// <summary>Создаёт адаптивную компоновку и элементы редактора.</summary>
+    private void InitializeComponent()
+    {
+        MainLayout = new TableLayoutPanel();
+        ButtonsPanel = new FlowLayoutPanel();
+        AddButton = new Button();
+        RemoveButton = new Button();
+        EditorPanel = new Panel();
+        EditorLayout = new TableLayoutPanel();
+        ItemsListBox = new ListBox();
+        IdTextBox = new TextBox();
+        CostTextBox = new TextBox();
+        CategoryComboBox = new ComboBox();
+        NameTextBox = new TextBox();
+        DescriptionTextBox = new TextBox();
+        SuspendLayout();
+        MainLayout.SuspendLayout();
+        EditorLayout.SuspendLayout();
+        MainLayout.Dock = DockStyle.Fill;
+        MainLayout.Padding = new Padding(8);
+        MainLayout.ColumnCount = 2;
+        MainLayout.RowCount = 3;
+        MainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+        MainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
+        ListLabel = new Label();
+        ListLabel.Name = "ListLabel";
+        ListLabel.Text = "Items";
+        ListLabel.AutoSize = true;
+        ListLabel.Font = new Font(Font, FontStyle.Bold);
+        MainLayout.Controls.Add(ListLabel, 0, 0);
+        ItemsListBox.Name = "ItemsListBox";
+        ItemsListBox.Dock = DockStyle.Fill;
+        ItemsListBox.IntegralHeight = false;
+        ItemsListBox.HorizontalScrollbar = true;
+        ItemsListBox.TabIndex = 0;
+        MainLayout.Controls.Add(ItemsListBox, 0, 1);
+        ButtonsPanel.Dock = DockStyle.Fill;
+        ButtonsPanel.WrapContents = false;
+        AddButton.Name = "AddButton";
+        AddButton.Text = "Add";
+        AddButton.Size = new Size(90, 30);
+        AddButton.TabIndex = 0;
+        AddButton.Click += AddButton_Click;
+        RemoveButton.Name = "RemoveButton";
+        RemoveButton.Text = "Remove";
+        RemoveButton.Size = new Size(90, 30);
+        RemoveButton.TabIndex = 1;
+        RemoveButton.Click += RemoveButton_Click;
+        ButtonsPanel.Controls.Add(AddButton);
+        ButtonsPanel.Controls.Add(RemoveButton);
+        MainLayout.Controls.Add(ButtonsPanel, 0, 2);
+        EditorPanel.Dock = DockStyle.Fill;
+        EditorPanel.AutoScroll = true;
+        EditorPanel.Padding = new Padding(12, 0, 0, 0);
+        MainLayout.Controls.Add(EditorPanel, 1, 0);
+        MainLayout.SetRowSpan(EditorPanel, 3);
+        EditorLayout.Dock = DockStyle.Top;
+        EditorLayout.AutoSize = true;
+        EditorLayout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        EditorLayout.ColumnCount = 2;
+        EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72));
+        EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        EditorLayout.RowCount = 8;
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        SelectedItemLabel = new Label();
+        SelectedItemLabel.Name = "SelectedItemLabel";
+        SelectedItemLabel.Text = "Selected Item";
+        SelectedItemLabel.AutoSize = true;
+        SelectedItemLabel.Font = new Font(Font, FontStyle.Bold);
+        SelectedItemLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(SelectedItemLabel, 0, 0);
+        EditorLayout.SetColumnSpan(SelectedItemLabel, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        IdTextBoxLabel = new Label();
+        IdTextBoxLabel.Name = "IdTextBoxLabel";
+        IdTextBoxLabel.Text = "Id:";
+        IdTextBoxLabel.AutoSize = true;
+        IdTextBoxLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(IdTextBoxLabel, 0, 1);
+        IdTextBox.Name = "IdTextBox";
+        IdTextBox.Anchor = AnchorStyles.Left;
+        IdTextBox.Width = 100;
+        IdTextBox.TabIndex = 1;
+        IdTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(IdTextBox, 1, 1);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        CostTextBoxLabel = new Label();
+        CostTextBoxLabel.Name = "CostTextBoxLabel";
+        CostTextBoxLabel.Text = "Cost:";
+        CostTextBoxLabel.AutoSize = true;
+        CostTextBoxLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(CostTextBoxLabel, 0, 2);
+        CostTextBox.Name = "CostTextBox";
+        CostTextBox.Anchor = AnchorStyles.Left;
+        CostTextBox.Width = 140;
+        CostTextBox.TabIndex = 2;
+        CostTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(CostTextBox, 1, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        CategoryComboBoxLabel = new Label();
+        CategoryComboBoxLabel.Name = "CategoryComboBoxLabel";
+        CategoryComboBoxLabel.Text = "Category:";
+        CategoryComboBoxLabel.AutoSize = true;
+        CategoryComboBoxLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(CategoryComboBoxLabel, 0, 3);
+        CategoryComboBox.Name = "CategoryComboBox";
+        CategoryComboBox.Anchor = AnchorStyles.Left;
+        CategoryComboBox.Width = 140;
+        CategoryComboBox.TabIndex = 3;
+        CategoryComboBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(CategoryComboBox, 1, 3);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+        NameLabel = new Label();
+        NameLabel.Name = "NameLabel";
+        NameLabel.Text = "Name:";
+        NameLabel.AutoSize = true;
+        NameLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(NameLabel, 0, 4);
+        EditorLayout.SetColumnSpan(NameLabel, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 88));
+        NameTextBox.Name = "NameTextBox";
+        NameTextBox.Dock = DockStyle.Fill;
+        NameTextBox.TabIndex = 5;
+        NameTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(NameTextBox, 0, 5);
+        EditorLayout.SetColumnSpan(NameTextBox, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+        DescriptionLabel = new Label();
+        DescriptionLabel.Name = "DescriptionLabel";
+        DescriptionLabel.Text = "Description:";
+        DescriptionLabel.AutoSize = true;
+        DescriptionLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(DescriptionLabel, 0, 6);
+        EditorLayout.SetColumnSpan(DescriptionLabel, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 128));
+        DescriptionTextBox.Name = "DescriptionTextBox";
+        DescriptionTextBox.Dock = DockStyle.Fill;
+        DescriptionTextBox.TabIndex = 7;
+        DescriptionTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(DescriptionTextBox, 0, 7);
+        EditorLayout.SetColumnSpan(DescriptionTextBox, 2);
+        IdTextBox.ReadOnly = true;
+        IdTextBox.TabStop = false;
+        IdTextBox.BackColor = SystemColors.Control;
+        CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        NameTextBox.Multiline = true;
+        NameTextBox.ScrollBars = ScrollBars.Vertical;
+        DescriptionTextBox.Multiline = true;
+        DescriptionTextBox.ScrollBars = ScrollBars.Vertical;
+        EditorPanel.Controls.Add(EditorLayout);
+        Controls.Add(MainLayout);
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        Name = "ItemsTab";
+        Size = new Size(800, 450);
+        EditorLayout.ResumeLayout(false);
+        EditorLayout.PerformLayout();
+        MainLayout.ResumeLayout(false);
+        MainLayout.PerformLayout();
+        ResumeLayout(false);
     }
 }

@@ -28,30 +28,30 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
-        tabControl1 = new TabControl();
+        MainTabControl = new TabControl();
         ItemsTabPage = new TabPage();
-        items1 = new UniversityProject.View.Tabs.ItemsTab();
+        ItemsTabControl = new UniversityProject.View.Tabs.ItemsTab();
         CustomersTabPage = new TabPage();
-        customers1 = new UniversityProject.View.Tabs.CustomersTab();
-        tabControl1.SuspendLayout();
+        CustomersTabControl = new UniversityProject.View.Tabs.CustomersTab();
+        MainTabControl.SuspendLayout();
         ItemsTabPage.SuspendLayout();
         CustomersTabPage.SuspendLayout();
         SuspendLayout();
         // 
-        // tabControl1
+        // MainTabControl
         // 
-        tabControl1.Controls.Add(ItemsTabPage);
-        tabControl1.Controls.Add(CustomersTabPage);
-        tabControl1.Dock = DockStyle.Fill;
-        tabControl1.Location = new Point(0, 0);
-        tabControl1.Name = "tabControl1";
-        tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(800, 450);
-        tabControl1.TabIndex = 0;
+        MainTabControl.Controls.Add(ItemsTabPage);
+        MainTabControl.Controls.Add(CustomersTabPage);
+        MainTabControl.Dock = DockStyle.Fill;
+        MainTabControl.Location = new Point(0, 0);
+        MainTabControl.Name = "MainTabControl";
+        MainTabControl.SelectedIndex = 0;
+        MainTabControl.Size = new Size(800, 450);
+        MainTabControl.TabIndex = 0;
         // 
         // ItemsTabPage
         // 
-        ItemsTabPage.Controls.Add(items1);
+        ItemsTabPage.Controls.Add(ItemsTabControl);
         ItemsTabPage.Location = new Point(4, 24);
         ItemsTabPage.Name = "ItemsTabPage";
         ItemsTabPage.Padding = new Padding(3);
@@ -60,17 +60,17 @@ partial class MainForm
         ItemsTabPage.Text = "Items";
         ItemsTabPage.UseVisualStyleBackColor = true;
         // 
-        // items1
+        // ItemsTabControl
         // 
-        items1.Dock = DockStyle.Fill;
-        items1.Location = new Point(3, 3);
-        items1.Name = "items1";
-        items1.Size = new Size(786, 416);
-        items1.TabIndex = 0;
+        ItemsTabControl.Dock = DockStyle.Fill;
+        ItemsTabControl.Location = new Point(3, 3);
+        ItemsTabControl.Name = "ItemsTabControl";
+        ItemsTabControl.Size = new Size(786, 416);
+        ItemsTabControl.TabIndex = 0;
         // 
         // CustomersTabPage
         // 
-        CustomersTabPage.Controls.Add(customers1);
+        CustomersTabPage.Controls.Add(CustomersTabControl);
         CustomersTabPage.Location = new Point(4, 24);
         CustomersTabPage.Name = "CustomersTabPage";
         CustomersTabPage.Padding = new Padding(3);
@@ -79,23 +79,23 @@ partial class MainForm
         CustomersTabPage.Text = "Customers";
         CustomersTabPage.UseVisualStyleBackColor = true;
         // 
-        // customers1
+        // CustomersTabControl
         // 
-        customers1.Dock = DockStyle.Fill;
-        customers1.Location = new Point(3, 3);
-        customers1.Name = "customers1";
-        customers1.Size = new Size(786, 416);
-        customers1.TabIndex = 0;
+        CustomersTabControl.Dock = DockStyle.Fill;
+        CustomersTabControl.Location = new Point(3, 3);
+        CustomersTabControl.Name = "CustomersTabControl";
+        CustomersTabControl.Size = new Size(786, 416);
+        CustomersTabControl.TabIndex = 0;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
-        Controls.Add(tabControl1);
+        Controls.Add(MainTabControl);
         Name = "MainForm";
         Text = "Form1";
-        tabControl1.ResumeLayout(false);
+        MainTabControl.ResumeLayout(false);
         ItemsTabPage.ResumeLayout(false);
         CustomersTabPage.ResumeLayout(false);
         ResumeLayout(false);
@@ -103,9 +103,9 @@ partial class MainForm
 
     #endregion
 
-    private TabControl tabControl1;
+    private TabControl MainTabControl;
     private TabPage ItemsTabPage;
     private TabPage CustomersTabPage;
-    private View.Tabs.ItemsTab items1;
-    private View.Tabs.CustomersTab customers1;
+    private View.Tabs.ItemsTab ItemsTabControl;
+    private View.Tabs.CustomersTab CustomersTabControl;
 }

@@ -1,328 +1,164 @@
-﻿namespace UniversityProject.View.Tabs
+﻿namespace UniversityProject.View.Tabs;
+
+partial class CustomersTab
 {
-    partial class CustomersTab
+    /// <summary>Контейнер компонентов формы.</summary>
+    private System.ComponentModel.IContainer components = null;
+    /// <summary>Основная компоновка вкладки.</summary>
+    private TableLayoutPanel MainLayout;
+    /// <summary>Список записей.</summary>
+    private ListBox CustomersListBox;
+    /// <summary>Кнопки управления списком.</summary>
+    private FlowLayoutPanel ButtonsPanel;
+    /// <summary>Добавление записи.</summary>
+    private Button AddButton;
+    /// <summary>Удаление записи.</summary>
+    private Button RemoveButton;
+    /// <summary>Прокручиваемая область редактора.</summary>
+    private Panel EditorPanel;
+    /// <summary>Поля выбранной записи.</summary>
+    private TableLayoutPanel EditorLayout;
+    /// <summary>Элемент ввода IdTextBox.</summary>
+    private TextBox IdTextBox;
+    /// <summary>Элемент ввода FullnameTextBox.</summary>
+    private TextBox FullnameTextBox;
+    /// <summary>Элемент ввода DeliveryAddressControl.</summary>
+    private UniversityProject.View.Controls.AddressControl DeliveryAddressControl;
+
+    /// <summary>Подпись SelectedCustomerLabel.</summary>
+    private Label SelectedCustomerLabel;
+    /// <summary>Подпись IdTextBoxLabel.</summary>
+    private Label IdTextBoxLabel;
+    /// <summary>Подпись FullnameTextBoxLabel.</summary>
+    private Label FullnameTextBoxLabel;
+    /// <summary>Подпись ListLabel.</summary>
+    private Label ListLabel;
+
+    /// <summary>Освобождает компоненты вкладки.</summary>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
+    }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            splitContainer1 = new SplitContainer();
-            splitContainer2 = new SplitContainer();
-            label1 = new Label();
-            splitContainer3 = new SplitContainer();
-            CustomersListBox = new ListBox();
-            splitContainer4 = new SplitContainer();
-            buttonAdd = new Button();
-            splitContainer5 = new SplitContainer();
-            buttonRemove = new Button();
-            splitContainer6 = new SplitContainer();
-            textBoxAddress = new TextBox();
-            textBoxFullaName = new TextBox();
-            label5 = new Label();
-            label4 = new Label();
-            textBoxID = new TextBox();
-            label3 = new Label();
-            label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
-            splitContainer2.Panel1.SuspendLayout();
-            splitContainer2.Panel2.SuspendLayout();
-            splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
-            splitContainer3.Panel1.SuspendLayout();
-            splitContainer3.Panel2.SuspendLayout();
-            splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
-            splitContainer4.Panel1.SuspendLayout();
-            splitContainer4.Panel2.SuspendLayout();
-            splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer5).BeginInit();
-            splitContainer5.Panel1.SuspendLayout();
-            splitContainer5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer6).BeginInit();
-            splitContainer6.Panel1.SuspendLayout();
-            splitContainer6.SuspendLayout();
-            SuspendLayout();
-            // 
-            // splitContainer1
-            // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            splitContainer1.Panel1.Controls.Add(splitContainer2);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(splitContainer6);
-            splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 331;
-            splitContainer1.TabIndex = 0;
-            // 
-            // splitContainer2
-            // 
-            splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(0, 0);
-            splitContainer2.Name = "splitContainer2";
-            splitContainer2.Orientation = Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            splitContainer2.Panel1.Controls.Add(label1);
-            // 
-            // splitContainer2.Panel2
-            // 
-            splitContainer2.Panel2.Controls.Add(splitContainer3);
-            splitContainer2.Size = new Size(331, 450);
-            splitContainer2.SplitterDistance = 29;
-            splitContainer2.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(64, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Customers";
-            // 
-            // splitContainer3
-            // 
-            splitContainer3.Dock = DockStyle.Fill;
-            splitContainer3.Location = new Point(0, 0);
-            splitContainer3.Name = "splitContainer3";
-            splitContainer3.Orientation = Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            splitContainer3.Panel1.Controls.Add(CustomersListBox);
-            // 
-            // splitContainer3.Panel2
-            // 
-            splitContainer3.Panel2.Controls.Add(splitContainer4);
-            splitContainer3.Size = new Size(331, 417);
-            splitContainer3.SplitterDistance = 344;
-            splitContainer3.TabIndex = 0;
-            // 
-            // CustomersListBox
-            // 
-            CustomersListBox.Dock = DockStyle.Fill;
-            CustomersListBox.FormattingEnabled = true;
-            CustomersListBox.Location = new Point(0, 0);
-            CustomersListBox.Name = "CustomersListBox";
-            CustomersListBox.Size = new Size(331, 344);
-            CustomersListBox.TabIndex = 0;
-            // 
-            // splitContainer4
-            // 
-            splitContainer4.Dock = DockStyle.Fill;
-            splitContainer4.Location = new Point(0, 0);
-            splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            splitContainer4.Panel1.Controls.Add(buttonAdd);
-            // 
-            // splitContainer4.Panel2
-            // 
-            splitContainer4.Panel2.Controls.Add(splitContainer5);
-            splitContainer4.Size = new Size(331, 69);
-            splitContainer4.SplitterDistance = 110;
-            splitContainer4.TabIndex = 0;
-            // 
-            // buttonAdd
-            // 
-            buttonAdd.Dock = DockStyle.Fill;
-            buttonAdd.Location = new Point(0, 0);
-            buttonAdd.Name = "buttonAdd";
-            buttonAdd.Size = new Size(110, 69);
-            buttonAdd.TabIndex = 0;
-            buttonAdd.Text = "Add";
-            buttonAdd.UseVisualStyleBackColor = true;
-            buttonAdd.Click += buttonAdd_Click;
-            // 
-            // splitContainer5
-            // 
-            splitContainer5.Dock = DockStyle.Fill;
-            splitContainer5.Location = new Point(0, 0);
-            splitContainer5.Name = "splitContainer5";
-            // 
-            // splitContainer5.Panel1
-            // 
-            splitContainer5.Panel1.Controls.Add(buttonRemove);
-            splitContainer5.Size = new Size(217, 69);
-            splitContainer5.SplitterDistance = 106;
-            splitContainer5.TabIndex = 0;
-            // 
-            // buttonRemove
-            // 
-            buttonRemove.Dock = DockStyle.Fill;
-            buttonRemove.Location = new Point(0, 0);
-            buttonRemove.Name = "buttonRemove";
-            buttonRemove.Size = new Size(106, 69);
-            buttonRemove.TabIndex = 0;
-            buttonRemove.Text = "Remove";
-            buttonRemove.UseVisualStyleBackColor = true;
-            buttonRemove.Click += buttonRemove_Click;
-            // 
-            // splitContainer6
-            // 
-            splitContainer6.Dock = DockStyle.Fill;
-            splitContainer6.Location = new Point(0, 0);
-            splitContainer6.Name = "splitContainer6";
-            splitContainer6.Orientation = Orientation.Horizontal;
-            // 
-            // splitContainer6.Panel1
-            // 
-            splitContainer6.Panel1.Controls.Add(textBoxAddress);
-            splitContainer6.Panel1.Controls.Add(textBoxFullaName);
-            splitContainer6.Panel1.Controls.Add(label5);
-            splitContainer6.Panel1.Controls.Add(label4);
-            splitContainer6.Panel1.Controls.Add(textBoxID);
-            splitContainer6.Panel1.Controls.Add(label3);
-            splitContainer6.Panel1.Controls.Add(label2);
-            splitContainer6.Size = new Size(465, 450);
-            splitContainer6.SplitterDistance = 193;
-            splitContainer6.TabIndex = 0;
-            // 
-            // textBoxAddress
-            // 
-            textBoxAddress.Location = new Point(91, 88);
-            textBoxAddress.Multiline = true;
-            textBoxAddress.Name = "textBoxAddress";
-            textBoxAddress.Size = new Size(371, 95);
-            textBoxAddress.TabIndex = 6;
-            // 
-            // textBoxFullaName
-            // 
-            textBoxFullaName.Location = new Point(91, 59);
-            textBoxFullaName.Name = "textBoxFullaName";
-            textBoxFullaName.Size = new Size(371, 23);
-            textBoxFullaName.TabIndex = 5;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(15, 84);
-            label5.Name = "label5";
-            label5.Size = new Size(52, 15);
-            label5.TabIndex = 4;
-            label5.Text = "Address:";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(15, 59);
-            label4.Name = "label4";
-            label4.Size = new Size(61, 15);
-            label4.TabIndex = 3;
-            label4.Text = "FullName:";
-            // 
-            // textBoxID
-            // 
-            textBoxID.Location = new Point(91, 33);
-            textBoxID.Name = "textBoxID";
-            textBoxID.Size = new Size(100, 23);
-            textBoxID.TabIndex = 2;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 33);
-            label3.Name = "label3";
-            label3.Size = new Size(21, 15);
-            label3.TabIndex = 1;
-            label3.Text = "ID:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(15, 10);
-            label2.Name = "label2";
-            label2.Size = new Size(111, 15);
-            label2.TabIndex = 0;
-            label2.Text = "Selected Customers";
-            // 
-            // CustomersTab
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(splitContainer1);
-            Name = "CustomersTab";
-            Size = new Size(800, 450);
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
-            splitContainer2.Panel1.ResumeLayout(false);
-            splitContainer2.Panel1.PerformLayout();
-            splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
-            splitContainer2.ResumeLayout(false);
-            splitContainer3.Panel1.ResumeLayout(false);
-            splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
-            splitContainer3.ResumeLayout(false);
-            splitContainer4.Panel1.ResumeLayout(false);
-            splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
-            splitContainer4.ResumeLayout(false);
-            splitContainer5.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer5).EndInit();
-            splitContainer5.ResumeLayout(false);
-            splitContainer6.Panel1.ResumeLayout(false);
-            splitContainer6.Panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer6).EndInit();
-            splitContainer6.ResumeLayout(false);
-            ResumeLayout(false);
-        }
-
-        #endregion
-
-        private SplitContainer splitContainer1;
-        private SplitContainer splitContainer2;
-        private Label label1;
-        private SplitContainer splitContainer3;
-        private ListBox CustomersListBox;
-        private SplitContainer splitContainer4;
-        private Button buttonAdd;
-        private SplitContainer splitContainer5;
-        private Button buttonRemove;
-        private SplitContainer splitContainer6;
-        private TextBox textBoxAddress;
-        private TextBox textBoxFullaName;
-        private Label label5;
-        private Label label4;
-        private TextBox textBoxID;
-        private Label label3;
-        private Label label2;
+    /// <summary>Создаёт адаптивную компоновку и элементы редактора.</summary>
+    private void InitializeComponent()
+    {
+        MainLayout = new TableLayoutPanel();
+        ButtonsPanel = new FlowLayoutPanel();
+        AddButton = new Button();
+        RemoveButton = new Button();
+        EditorPanel = new Panel();
+        EditorLayout = new TableLayoutPanel();
+        CustomersListBox = new ListBox();
+        IdTextBox = new TextBox();
+        FullnameTextBox = new TextBox();
+        DeliveryAddressControl = new UniversityProject.View.Controls.AddressControl();
+        SuspendLayout();
+        MainLayout.SuspendLayout();
+        EditorLayout.SuspendLayout();
+        MainLayout.Dock = DockStyle.Fill;
+        MainLayout.Padding = new Padding(8);
+        MainLayout.ColumnCount = 2;
+        MainLayout.RowCount = 3;
+        MainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+        MainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+        MainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
+        ListLabel = new Label();
+        ListLabel.Name = "ListLabel";
+        ListLabel.Text = "Customers";
+        ListLabel.AutoSize = true;
+        ListLabel.Font = new Font(Font, FontStyle.Bold);
+        MainLayout.Controls.Add(ListLabel, 0, 0);
+        CustomersListBox.Name = "CustomersListBox";
+        CustomersListBox.Dock = DockStyle.Fill;
+        CustomersListBox.IntegralHeight = false;
+        CustomersListBox.HorizontalScrollbar = true;
+        CustomersListBox.TabIndex = 0;
+        MainLayout.Controls.Add(CustomersListBox, 0, 1);
+        ButtonsPanel.Dock = DockStyle.Fill;
+        ButtonsPanel.WrapContents = false;
+        AddButton.Name = "AddButton";
+        AddButton.Text = "Add";
+        AddButton.Size = new Size(90, 30);
+        AddButton.TabIndex = 0;
+        AddButton.Click += AddButton_Click;
+        RemoveButton.Name = "RemoveButton";
+        RemoveButton.Text = "Remove";
+        RemoveButton.Size = new Size(90, 30);
+        RemoveButton.TabIndex = 1;
+        RemoveButton.Click += RemoveButton_Click;
+        ButtonsPanel.Controls.Add(AddButton);
+        ButtonsPanel.Controls.Add(RemoveButton);
+        MainLayout.Controls.Add(ButtonsPanel, 0, 2);
+        EditorPanel.Dock = DockStyle.Fill;
+        EditorPanel.AutoScroll = true;
+        EditorPanel.Padding = new Padding(12, 0, 0, 0);
+        MainLayout.Controls.Add(EditorPanel, 1, 0);
+        MainLayout.SetRowSpan(EditorPanel, 3);
+        EditorLayout.Dock = DockStyle.Top;
+        EditorLayout.AutoSize = true;
+        EditorLayout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        EditorLayout.ColumnCount = 2;
+        EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72));
+        EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        EditorLayout.RowCount = 4;
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        SelectedCustomerLabel = new Label();
+        SelectedCustomerLabel.Name = "SelectedCustomerLabel";
+        SelectedCustomerLabel.Text = "Selected Customer";
+        SelectedCustomerLabel.AutoSize = true;
+        SelectedCustomerLabel.Font = new Font(Font, FontStyle.Bold);
+        SelectedCustomerLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(SelectedCustomerLabel, 0, 0);
+        EditorLayout.SetColumnSpan(SelectedCustomerLabel, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        IdTextBoxLabel = new Label();
+        IdTextBoxLabel.Name = "IdTextBoxLabel";
+        IdTextBoxLabel.Text = "Id:";
+        IdTextBoxLabel.AutoSize = true;
+        IdTextBoxLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(IdTextBoxLabel, 0, 1);
+        IdTextBox.Name = "IdTextBox";
+        IdTextBox.Anchor = AnchorStyles.Left;
+        IdTextBox.Width = 100;
+        IdTextBox.TabIndex = 1;
+        IdTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(IdTextBox, 1, 1);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        FullnameTextBoxLabel = new Label();
+        FullnameTextBoxLabel.Name = "FullnameTextBoxLabel";
+        FullnameTextBoxLabel.Text = "Full Name:";
+        FullnameTextBoxLabel.AutoSize = true;
+        FullnameTextBoxLabel.Anchor = AnchorStyles.Left;
+        EditorLayout.Controls.Add(FullnameTextBoxLabel, 0, 2);
+        FullnameTextBox.Name = "FullnameTextBox";
+        FullnameTextBox.Dock = DockStyle.Fill;
+        FullnameTextBox.TabIndex = 2;
+        FullnameTextBox.Margin = new Padding(3, 3, 24, 3);
+        EditorLayout.Controls.Add(FullnameTextBox, 1, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 156));
+        DeliveryAddressControl.Name = "DeliveryAddressControl";
+        DeliveryAddressControl.Dock = DockStyle.Fill;
+        DeliveryAddressControl.TabIndex = 3;
+        DeliveryAddressControl.Margin = new Padding(0, 8, 4, 0);
+        EditorLayout.Controls.Add(DeliveryAddressControl, 0, 3);
+        EditorLayout.SetColumnSpan(DeliveryAddressControl, 2);
+        IdTextBox.ReadOnly = true;
+        IdTextBox.TabStop = false;
+        IdTextBox.BackColor = SystemColors.Control;
+        EditorPanel.Controls.Add(EditorLayout);
+        Controls.Add(MainLayout);
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        Name = "CustomersTab";
+        Size = new Size(800, 450);
+        EditorLayout.ResumeLayout(false);
+        EditorLayout.PerformLayout();
+        MainLayout.ResumeLayout(false);
+        MainLayout.PerformLayout();
+        ResumeLayout(false);
     }
 }

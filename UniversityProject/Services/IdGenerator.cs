@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace UniversityProject.Services;
 
-namespace UniversityProject.Services;
-
-internal class IdGenerator
+/// <summary>Выдаёт отдельные последовательности идентификаторов товаров и покупателей.</summary>
+public static class IdGenerator
 {
-    static int ID = 1;
+    /// <summary>Последний выданный идентификатор товара.</summary>
+    private static int _itemId;
 
-    public int GetNextId()
-    {
-        return ID++;
-    }
+    /// <summary>Последний выданный идентификатор покупателя.</summary>
+    private static int _customerId;
+
+    /// <summary>Возвращает следующий идентификатор товара, начиная с 1.</summary>
+    public static int GetNextItemId() => Interlocked.Increment(ref _itemId);
+
+    /// <summary>Возвращает следующий идентификатор покупателя, начиная с 1.</summary>
+    public static int GetNextCustomerId() => Interlocked.Increment(ref _customerId);
 }
