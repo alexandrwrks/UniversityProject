@@ -14,6 +14,21 @@ public partial class AddressControl : UserControl
     /// <summary>Защита от изменения модели во время отображения.</summary>
     private bool _loading;
 
+    /// <summary>Запрещает пользовательское редактирование полей.</summary>
+    private bool _readOnly;
+
+    /// <summary>Показывает адрес для чтения, сохраняя возможность выделять и копировать текст.</summary>
+    [System.ComponentModel.DefaultValue(false)]
+    public bool ReadOnly
+    {
+        get => _readOnly;
+        set
+        {
+            _readOnly = value;
+            foreach (TextBox textBox in _fields) textBox.ReadOnly = value;
+        }
+    }
+
     /// <summary>Отображаемый адрес. Некорректный ввод не заменяет последнее корректное значение.</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
     public Address Address

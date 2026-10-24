@@ -33,6 +33,10 @@ partial class MainForm
         ItemsTabControl = new UniversityProject.View.Tabs.ItemsTab();
         CustomersTabPage = new TabPage();
         CustomersTabControl = new UniversityProject.View.Tabs.CustomersTab();
+        CartsTabPage = new TabPage();
+        CartsTabControl = new UniversityProject.View.Tabs.CartsTab();
+        OrdersTabPage = new TabPage();
+        OrdersTabControl = new UniversityProject.View.Tabs.OrdersTab();
         MainTabControl.SuspendLayout();
         ItemsTabPage.SuspendLayout();
         CustomersTabPage.SuspendLayout();
@@ -42,6 +46,18 @@ partial class MainForm
         // 
         MainTabControl.Controls.Add(ItemsTabPage);
         MainTabControl.Controls.Add(CustomersTabPage);
+        CartsTabPage.Text = "Carts";
+        CartsTabPage.Name = "CartsTabPage";
+        CartsTabPage.UseVisualStyleBackColor = true;
+        CartsTabPage.Controls.Add(CartsTabControl);
+        CartsTabControl.Dock = DockStyle.Fill;
+        OrdersTabPage.Text = "Orders";
+        OrdersTabPage.Name = "OrdersTabPage";
+        OrdersTabPage.UseVisualStyleBackColor = true;
+        OrdersTabPage.Controls.Add(OrdersTabControl);
+        OrdersTabControl.Dock = DockStyle.Fill;
+        MainTabControl.Controls.Add(CartsTabPage);
+        MainTabControl.Controls.Add(OrdersTabPage);
         MainTabControl.Dock = DockStyle.Fill;
         MainTabControl.Location = new Point(0, 0);
         MainTabControl.Name = "MainTabControl";
@@ -108,4 +124,12 @@ partial class MainForm
     private TabPage CustomersTabPage;
     private View.Tabs.ItemsTab ItemsTabControl;
     private View.Tabs.CustomersTab CustomersTabControl;
+    /// <summary>Вкладка корзин.</summary>
+    private TabPage CartsTabPage;
+    /// <summary>Управление корзинами.</summary>
+    private UniversityProject.View.Tabs.CartsTab CartsTabControl;
+    /// <summary>Вкладка заказов.</summary>
+    private TabPage OrdersTabPage;
+    /// <summary>Управление заказами.</summary>
+    private UniversityProject.View.Tabs.OrdersTab OrdersTabControl;
 }

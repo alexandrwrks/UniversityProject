@@ -19,8 +19,20 @@ public partial class MainForm : Form
             using var icon = new Icon(iconStream);
             Icon = (Icon)icon.Clone();
         }
+        ClientSize = new Size(1050, 650);
         MinimumSize = new Size(820, 490);
         ItemsTabControl.Items = _store.Items;
         CustomersTabControl.Customers = _store.Customers;
+        CartsTabControl.Items = _store.Items;
+        CartsTabControl.Customers = _store.Customers;
+        OrdersTabControl.Customers = _store.Customers;
+        MainTabControl.SelectedIndexChanged += MainTabControl_SelectedIndexChanged;
+    }
+
+    /// <summary>Обновляет зависимые вкладки только при переходе на них.</summary>
+    private void MainTabControl_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (MainTabControl.SelectedTab == CartsTabPage) CartsTabControl.RefreshData();
+        else if (MainTabControl.SelectedTab == OrdersTabPage) OrdersTabControl.RefreshData();
     }
 }

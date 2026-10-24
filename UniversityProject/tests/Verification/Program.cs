@@ -4,7 +4,7 @@ using UniversityProject.Services;
 using UniversityProject.View.Controls;
 using UniversityProject.View.Tabs;
 
-internal static class Program
+internal static partial class Program
 {
     private static int _checks;
     private static void Check(bool condition, string message)
@@ -152,6 +152,7 @@ internal static class Program
                 }
             }
         }
+        VerifyLab3(form);
         form.Close();
         Application.DoEvents();
         Application.ExitThread();

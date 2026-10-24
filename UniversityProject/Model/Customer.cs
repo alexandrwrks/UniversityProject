@@ -7,6 +7,10 @@ public class Customer
 {
     /// <summary>Уникальный номер.</summary>
     private readonly int _id;
+    /// <summary>Единственная корзина покупателя.</summary>
+    private readonly Cart _cart;
+    /// <summary>Заказы покупателя.</summary>
+    private readonly List<Order> _orders;
     /// <summary>Полное имя.</summary>
     private string _fullname = string.Empty;
     /// <summary>Адрес доставки.</summary>
@@ -31,11 +35,18 @@ public class Customer
         set => _address = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    /// <summary>Единственная корзина, создаваемая вместе с покупателем.</summary>
+    public Cart Cart => _cart;
+    /// <summary>Заказы покупателя, всегда не null.</summary>
+    public List<Order> Orders => _orders;
+
     /// <summary>Создаёт покупателя с проверенным именем и адресом.</summary>
     /// <param name="fullname">Полное имя.</param>
     /// <param name="address">Адрес доставки.</param>
     public Customer(string fullname, Address address)
     {
+        _cart = new Cart();
+        _orders = new List<Order>();
         Fullname = fullname;
         Address = address;
         _id = IdGenerator.GetNextCustomerId();
