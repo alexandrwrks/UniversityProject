@@ -40,6 +40,9 @@ public class Customer
     /// <summary>Заказы покупателя, всегда не null.</summary>
     public List<Order> Orders => _orders;
 
+    /// <summary>Признак приоритетного обслуживания; по умолчанию false.</summary>
+    public bool IsPriority { get; set; }
+
     /// <summary>Создаёт покупателя с проверенным именем и адресом.</summary>
     /// <param name="fullname">Полное имя.</param>
     /// <param name="address">Адрес доставки.</param>

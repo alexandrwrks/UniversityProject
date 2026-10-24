@@ -22,6 +22,8 @@ partial class CustomersTab
     private TextBox IdTextBox;
     /// <summary>Элемент ввода FullnameTextBox.</summary>
     private TextBox FullnameTextBox;
+    /// <summary>Признак приоритетного обслуживания.</summary>
+    private CheckBox IsPriorityCheckBox;
     /// <summary>Элемент ввода DeliveryAddressControl.</summary>
     private UniversityProject.View.Controls.AddressControl DeliveryAddressControl;
 
@@ -51,6 +53,7 @@ partial class CustomersTab
         EditorPanel = new Panel();
         EditorLayout = new TableLayoutPanel();
         CustomersListBox = new ListBox();
+        IsPriorityCheckBox = new CheckBox();
         IdTextBox = new TextBox();
         FullnameTextBox = new TextBox();
         DeliveryAddressControl = new UniversityProject.View.Controls.AddressControl();
@@ -104,7 +107,7 @@ partial class CustomersTab
         EditorLayout.ColumnCount = 2;
         EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72));
         EditorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-        EditorLayout.RowCount = 4;
+        EditorLayout.RowCount = 5;
         EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
         SelectedCustomerLabel = new Label();
         SelectedCustomerLabel.Name = "SelectedCustomerLabel";
@@ -139,12 +142,19 @@ partial class CustomersTab
         FullnameTextBox.TabIndex = 2;
         FullnameTextBox.Margin = new Padding(3, 3, 24, 3);
         EditorLayout.Controls.Add(FullnameTextBox, 1, 2);
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        IsPriorityCheckBox.Name = "IsPriorityCheckBox";
+        IsPriorityCheckBox.Text = "Is Priority";
+        IsPriorityCheckBox.AutoSize = true;
+        IsPriorityCheckBox.Anchor = AnchorStyles.Left;
+        IsPriorityCheckBox.TabIndex = 3;
+        EditorLayout.Controls.Add(IsPriorityCheckBox, 1, 3);
         EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 156));
         DeliveryAddressControl.Name = "DeliveryAddressControl";
         DeliveryAddressControl.Dock = DockStyle.Fill;
-        DeliveryAddressControl.TabIndex = 3;
+        DeliveryAddressControl.TabIndex = 4;
         DeliveryAddressControl.Margin = new Padding(0, 8, 4, 0);
-        EditorLayout.Controls.Add(DeliveryAddressControl, 0, 3);
+        EditorLayout.Controls.Add(DeliveryAddressControl, 0, 4);
         EditorLayout.SetColumnSpan(DeliveryAddressControl, 2);
         IdTextBox.ReadOnly = true;
         IdTextBox.TabStop = false;

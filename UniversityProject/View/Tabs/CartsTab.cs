@@ -117,7 +117,9 @@ public partial class CartsTab : UserControl
     private void CreateOrderButton_Click(object? sender, EventArgs e)
     {
         if (CurrentCustomer == null || CurrentCustomer.Cart.Items.Count == 0) return;
-        var order = new Order(CurrentCustomer.Address, CurrentCustomer.Cart.Items);
+        Order order = CurrentCustomer.IsPriority
+            ? new PriorityOrder(CurrentCustomer.Address, CurrentCustomer.Cart.Items, DateTime.Today, PriorityOrder.DeliveryTimes[0])
+            : new Order(CurrentCustomer.Address, CurrentCustomer.Cart.Items);
         CurrentCustomer.Orders.Add(order);
         CurrentCustomer.Cart.Items.Clear();
         ShowCart();

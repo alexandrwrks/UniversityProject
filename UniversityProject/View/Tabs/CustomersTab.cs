@@ -37,6 +37,11 @@ public partial class CustomersTab : UserControl
                 _loading = true; ((CurrencyManager)BindingContext![_customers]!).Refresh(); CustomersListBox.SelectedItem = customer; _loading = false;
             }
         };
+        IsPriorityCheckBox.CheckedChanged += (_, _) =>
+        {
+            if (!_loading && CustomersListBox.SelectedItem is Customer customer)
+                customer.IsPriority = IsPriorityCheckBox.Checked;
+        };
         ShowCustomer();
     }
 
@@ -56,6 +61,8 @@ public partial class CustomersTab : UserControl
         var customer = CustomersListBox.SelectedItem as Customer;
         IdTextBox.Text = customer?.Id.ToString() ?? string.Empty;
         FullnameTextBox.Text = customer?.Fullname ?? string.Empty;
+        IsPriorityCheckBox.Checked = customer?.IsPriority ?? false;
+        IsPriorityCheckBox.Enabled = customer != null;
         FullnameTextBox.Enabled = DeliveryAddressControl.Enabled = RemoveButton.Enabled = customer != null;
         FullnameTextBox.BackColor = SystemColors.Window; _errors.SetError(FullnameTextBox, string.Empty);
         DeliveryAddressControl.Address = customer?.Address ?? new Address();

@@ -11,6 +11,11 @@ public partial class OrdersTab : UserControl
     /// <summary>Подавляет обработку выбора при заполнении редакторов.</summary>
     private bool _loading;
 
+    /// <summary>Выбранный заказ через ссылку базового класса.</summary>
+    private Order? _selectedOrder;
+    /// <summary>Тот же объект через ссылку дочернего класса, если заказ приоритетный.</summary>
+    private PriorityOrder? _selectedPriorityOrder;
+
     /// <summary>Общий список покупателей Store.</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public List<Customer> Customers
@@ -31,6 +36,18 @@ public partial class OrdersTab : UserControl
     {
         InitializeComponent();
         StatusComboBox.DataSource = Enum.GetValues<OrderStatus>();
+        DeliveryTimeComboBox.DataSource = PriorityOrder.DeliveryTimes.ToArray();
+        DeliveryTimeComboBox.SelectedIndexChanged += (_, _) =>
+        {
+            if (!_loading && _selectedPriorityOrder != null && ReferenceEquals(CurrentOrder, _selectedPriorityOrder)
+                && DeliveryTimeComboBox.SelectedItem is string time)
+                _selectedPriorityOrder.DeliveryTime = time;
+        };
+        DeliveryDatePicker.ValueChanged += (_, _) =>
+        {
+            if (!_loading && _selectedPriorityOrder != null && ReferenceEquals(CurrentOrder, _selectedPriorityOrder))
+                _selectedPriorityOrder.DeliveryDate = DeliveryDatePicker.Value;
+        };
         DeliveryAddressControl.ReadOnly = true;
         OrdersDataGridView.CurrentCellChanged += (_, _) => { if (!_loading) ShowOrder(); };
         OrdersDataGridView.SelectionChanged += (_, _) => { if (!_loading) ShowOrder(); };
@@ -81,7 +98,12 @@ public partial class OrdersTab : UserControl
     private void ShowOrder()
     {
         _loading = true;
-        Order? order = CurrentOrder;
+        _selectedOrder = CurrentOrder;
+        _selectedPriorityOrder = _selectedOrder as PriorityOrder;
+        Order? order = _selectedOrder;
+        PriorityOptionsPanel.Visible = _selectedPriorityOrder != null;
+        DeliveryTimeComboBox.SelectedItem = _selectedPriorityOrder?.DeliveryTime;
+        DeliveryDatePicker.Value = _selectedPriorityOrder?.DeliveryDate ?? DateTime.Today;
         IdTextBox.Text = order?.Id.ToString() ?? string.Empty;
         CreatedTextBox.Text = order?.CreationDate.ToString("g") ?? string.Empty;
         StatusComboBox.SelectedItem = order?.Status;
