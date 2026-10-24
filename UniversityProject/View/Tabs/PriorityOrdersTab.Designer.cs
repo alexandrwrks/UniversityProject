@@ -198,6 +198,8 @@ partial class PriorityOrdersTab
         DeliveryDateLabel.Anchor = AnchorStyles.Left;
         DeliveryDatePicker.Dock = DockStyle.Fill;
         DeliveryDatePicker.Format = DateTimePickerFormat.Short;
+        DeliveryDatePicker.MinDate = new DateTime(1753, 1, 1);
+        DeliveryDatePicker.MaxDate = new DateTime(9998, 12, 31);
         PriorityOptionsPanel.Controls.Add(PriorityOptionsLabel, 0, 0);
         PriorityOptionsPanel.SetColumnSpan(PriorityOptionsLabel, 2);
         PriorityOptionsPanel.Controls.Add(DeliveryTimeLabel, 0, 1);

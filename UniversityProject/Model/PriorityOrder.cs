@@ -18,11 +18,17 @@ public class PriorityOrder : Order
     /// <summary>Все допустимые интервалы; коллекцию нельзя изменить извне.</summary>
     public static IReadOnlyList<string> DeliveryTimes => _deliveryTimes;
 
-    /// <summary>Желаемая дата доставки без временной составляющей.</summary>
+    /// <summary>Дата доставки без времени, от 01.01.1753 до 31.12.9998 — диапазон календаря Windows.</summary>
     public DateTime DeliveryDate
     {
         get => _deliveryDate;
-        set => _deliveryDate = value.Date;
+        set
+        {
+            if (value.Year < 1753 || value.Year > 9998)
+                throw new ArgumentOutOfRangeException(nameof(DeliveryDate), value,
+                    "Дата доставки должна быть от 01.01.1753 до 31.12.9998.");
+            _deliveryDate = value.Date;
+        }
     }
 
     /// <summary>Один из шести допустимых интервалов доставки.</summary>

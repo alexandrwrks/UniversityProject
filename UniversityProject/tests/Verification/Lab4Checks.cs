@@ -37,6 +37,26 @@ internal static partial class Program
         var empty = new PriorityOrder();
         Check(empty.Items.Count == 0 && empty.Amount == 0 && empty.DeliveryDate == DateTime.Today && empty.DeliveryTime == PriorityOrder.DeliveryTimes[0], "Default priority order");
 
+        // DateTime supports years that the Windows calendar cannot display.
+        DateTime previousDate = priority.DeliveryDate;
+        Reject(() => priority.DeliveryDate = DateTime.MinValue);
+        Reject(() => priority.DeliveryDate = DateTime.MaxValue);
+        Check(priority.DeliveryDate == previousDate, "Rejected delivery date changed model");
+        Reject(() => new PriorityOrder(address, new[] { item }, DateTime.MinValue, PriorityOrder.DeliveryTimes[0]));
+        Reject(() => new PriorityOrder(address, new[] { item }, DateTime.MaxValue, PriorityOrder.DeliveryTimes[0]));
+        foreach (DateTime boundary in new[] { new DateTime(1753, 1, 1), new DateTime(9998, 12, 31) })
+        {
+            priority.DeliveryDate = boundary;
+            using var view = new OrdersTab { Customers = new List<Customer> { new Customer("Boundary", address) } };
+            view.Customers[0].Orders.Add(priority);
+            view.RefreshData();
+            var boundaryGrid = Field<DataGridView>(view, "OrdersDataGridView");
+            boundaryGrid.CurrentCell = boundaryGrid.Rows[0].Cells[0];
+            boundaryGrid.Rows[0].Selected = true;
+            Check(Field<DateTimePicker>(view, "DeliveryDatePicker").Value.Date == boundary, "Supported boundary date cannot be displayed");
+        }
+        priority.DeliveryDate = previousDate;
+
         var tabs = Field<TabControl>(form, "MainTabControl");
         var store = Field<Store>(form, "_store");
         store.Items.Clear(); store.Customers.Clear();
