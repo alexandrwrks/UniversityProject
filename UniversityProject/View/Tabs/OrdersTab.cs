@@ -22,7 +22,9 @@ public partial class OrdersTab : UserControl
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public List<Order> Orders { get; private set; } = new();
     /// <summary>Заказ выбранной строки; привязка по объекту, а не по индексу строки.</summary>
-    private Order? CurrentOrder => OrdersDataGridView.CurrentRow?.Tag as Order;
+    private Order? CurrentOrder => OrdersDataGridView.CurrentRow is { Selected: true, Tag: Order order }
+        ? order
+        : null;
 
     /// <summary>Создаёт таблицу и панель просмотра заказа.</summary>
     public OrdersTab()
@@ -31,6 +33,7 @@ public partial class OrdersTab : UserControl
         StatusComboBox.DataSource = Enum.GetValues<OrderStatus>();
         DeliveryAddressControl.ReadOnly = true;
         OrdersDataGridView.CurrentCellChanged += (_, _) => { if (!_loading) ShowOrder(); };
+        OrdersDataGridView.SelectionChanged += (_, _) => { if (!_loading) ShowOrder(); };
         StatusComboBox.SelectedIndexChanged += (_, _) =>
         {
             if (_loading || CurrentOrder is not Order order || StatusComboBox.SelectedItem is not OrderStatus status) return;
@@ -83,6 +86,7 @@ public partial class OrdersTab : UserControl
         CreatedTextBox.Text = order?.CreationDate.ToString("g") ?? string.Empty;
         StatusComboBox.SelectedItem = order?.Status;
         StatusComboBox.Enabled = order != null;
+        DeliveryAddressControl.Visible = order != null;
         DeliveryAddressControl.Address = order?.Address ?? new Address();
         OrderItemsListBox.Items.Clear();
         if (order != null) OrderItemsListBox.Items.AddRange(order.Items.Cast<object>().ToArray());

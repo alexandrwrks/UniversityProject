@@ -131,6 +131,16 @@ internal static partial class Program
                 }
             }
         }
+        // A grid can keep CurrentCell when its selected row is cleared with Ctrl+click.
+        // Details must follow the actual selected row, including reselecting the same cell.
+        grid.ClearSelection();
+        Check(!status.Enabled && Field<TextBox>(orders, "IdTextBox").Text == "", "Cleared row selection still permits changing a hidden order");
+        Check(!Field<AddressControl>(orders, "DeliveryAddressControl").Visible, "No selected order shows a fictional delivery address");
+        grid.Rows[1].Selected = true;
+        var secondPlaced = buyer2.Orders[1];
+        Check(status.Enabled && Field<TextBox>(orders, "IdTextBox").Text == secondPlaced.Id.ToString(), "Reselecting the same current row did not restore details");
+        status.SelectedItem = OrderStatus.Processing;
+        Check(secondPlaced.Status == OrderStatus.Processing && placed.Status == OrderStatus.Delivered, "Status update affected another order");
         store.Customers.Clear();
         orders.RefreshData();
         Check(grid.Rows.Count == 0 && orders.Orders.Count == 0 && Field<TextBox>(orders, "IdTextBox").Text == "" && !status.Enabled, "Empty orders state");
