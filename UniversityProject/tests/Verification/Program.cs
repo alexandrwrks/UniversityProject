@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using UniversityProject.Model;
 using UniversityProject.Services;
 using UniversityProject.View.Controls;
@@ -154,9 +154,11 @@ internal static partial class Program
         }
         VerifyLab3(form);
         VerifyLab4(form);
+        VerifyLab5Discounts();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();
         Console.WriteLine($"PASS: {_checks} checks");
     }
 }
+
