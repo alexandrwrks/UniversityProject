@@ -119,3 +119,7 @@ dotnet run --project UniversityProject.csproj -- --priority-demo
 ## Лабораторная №6 — стандартные интерфейсы
 
 Реализованы ICloneable, IEquatable<T> и IComparable<T> в требуемых классах. Правила копирования, равенства и результаты 227 проверок описаны в doc/Lab6.md. Диаграммы Practics6 находятся в doc/ObjectOrientedPractics.
+
+## Лабораторная №7 — делегаты
+
+На Items добавлены поиск по названию и сортировка по имени/стоимости. Алгоритмы DataTools используют Func и обходятся без LINQ. Выбор товара сохраняется по ссылке. Описание и 249 проверок — в doc/Lab7.md; диаграммы — Practics7.
