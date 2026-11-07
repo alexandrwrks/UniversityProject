@@ -71,6 +71,7 @@ internal static partial class Program
         }
         VerifyLab8MainSynchronization();
         VerifyLab8Contacts();
+        VerifyDiscountDialog();
     }
 
     private static void VerifyLab8MainSynchronization()
@@ -160,4 +161,44 @@ internal static partial class Program
         windows[0].Close(); windows[0].Close();
         Check(windows.Count == 0 && Subscribers(shared, "FullNameChanged") == 0, "Closing last contact editor releases model");
     }
+    private static void VerifyDiscountDialog()
+    {
+        using var host = new Form { ClientSize = new Size(1000, 650), ShowInTaskbar = false, StartPosition = FormStartPosition.Manual, Location = new Point(-3000, -3000) };
+        var buyer = new Customer("Диалог", new Address());
+        using var tab = new CustomersTab { Dock = DockStyle.Fill, Customers = new() { buyer } };
+        host.Controls.Add(tab);
+        host.Show();
+        Field<ListBox>(tab, "CustomersListBox").SelectedIndex = 0;
+        using var timer = new System.Windows.Forms.Timer { Interval = 30 };
+        bool accepted = false;
+        timer.Tick += (_, _) =>
+        {
+            var dialog = Application.OpenForms.OfType<UniversityProject.View.DiscountCategoryDialog>().FirstOrDefault();
+            if (dialog == null) return;
+            timer.Stop();
+            Field<ComboBox>(dialog, "_categoryComboBox").SelectedItem = Category.Sports;
+            Directory.CreateDirectory("tmp/lab8");
+            using var bitmap = new Bitmap(dialog.Width, dialog.Height);
+            dialog.DrawToBitmap(bitmap, new Rectangle(Point.Empty, dialog.Size));
+            bitmap.Save("tmp/lab8/discount-dialog.png");
+            accepted = true;
+            dialog.DialogResult = DialogResult.OK;
+        };
+        timer.Start();
+        Field<Button>(tab, "AddDiscountButton").PerformClick();
+        Check(accepted && buyer.Discounts.Count == 2 && buyer.Discounts[1] is UniversityProject.Model.Discounts.PercentDiscount { Category: Category.Sports }, "Modal category selection adds chosen discount");
+        using var cancelTimer = new System.Windows.Forms.Timer { Interval = 30 };
+        cancelTimer.Tick += (_, _) =>
+        {
+            var dialog = Application.OpenForms.OfType<UniversityProject.View.DiscountCategoryDialog>().FirstOrDefault();
+            if (dialog == null) return;
+            cancelTimer.Stop();
+            dialog.DialogResult = DialogResult.Cancel;
+        };
+        cancelTimer.Start();
+        Field<Button>(tab, "AddDiscountButton").PerformClick();
+        Check(buyer.Discounts.Count == 2, "Cancel does not add a discount");
+        host.Close();
+    }
+
 }
