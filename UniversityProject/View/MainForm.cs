@@ -26,13 +26,28 @@ public partial class MainForm : Form
         CartsTabControl.Items = _store.Items;
         CartsTabControl.Customers = _store.Customers;
         OrdersTabControl.Customers = _store.Customers;
-        MainTabControl.SelectedIndexChanged += MainTabControl_SelectedIndexChanged;
+        ItemsTabControl.ItemsChanged += ItemsTab_ItemsChanged;
+        CustomersTabControl.CustomersChanged += CustomersTab_CustomersChanged;
+        CartsTabControl.OrderCreated += CartsTab_OrderCreated;
     }
 
-    /// <summary>Обновляет зависимые вкладки только при переходе на них.</summary>
-    private void MainTabControl_SelectedIndexChanged(object? sender, EventArgs e)
+    /// <summary>Немедленно обновляет каталог корзины и суммы существующих заказов.</summary>
+    private void ItemsTab_ItemsChanged(object? sender, EventArgs e) => RefreshDependentTabs();
+
+    /// <summary>Немедленно обновляет покупателей корзины и строки заказов.</summary>
+    private void CustomersTab_CustomersChanged(object? sender, EventArgs e) => RefreshDependentTabs();
+
+    /// <summary>Показывает созданный заказ и начисленные скидки покупателя.</summary>
+    private void CartsTab_OrderCreated(object? sender, EventArgs e)
     {
-        if (MainTabControl.SelectedTab == CartsTabPage) CartsTabControl.RefreshData();
-        else if (MainTabControl.SelectedTab == OrdersTabPage) OrdersTabControl.RefreshData();
+        OrdersTabControl.RefreshData();
+        CustomersTabControl.RefreshData();
+    }
+
+    /// <summary>Синхронизирует зависимые вкладки по событиям источников данных.</summary>
+    private void RefreshDependentTabs()
+    {
+        CartsTabControl.RefreshData();
+        OrdersTabControl.RefreshData();
     }
 }

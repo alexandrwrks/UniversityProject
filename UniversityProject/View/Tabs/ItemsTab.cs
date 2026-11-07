@@ -22,7 +22,15 @@ public partial class ItemsTab : UserControl
     public List<Item> Items
     {
         get => _items;
-        set { _items = value ?? throw new ArgumentNullException(nameof(value)); RefreshItems(); }
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            UnsubscribeItems();
+            _items = value;
+            foreach (Item item in _items) SubscribeItem(item);
+            RefreshItems();
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     /// <summary>Создаёт редактор товара и подписки на изменение полей.</summary>
@@ -88,9 +96,16 @@ public partial class ItemsTab : UserControl
     private void UpdateField(Control field, Action<Item> update)
     {
         if (_loading || ItemsListBox.SelectedItem is not Item item) return;
-        if (InputValidation.Apply(field, _errors, () => update(item)))
+        var before = (item.Name, item.Info, item.Cost, item.Category);
+        _editingItem = true;
+        bool valid;
+        try { valid = InputValidation.Apply(field, _errors, () => update(item)); }
+        finally { _editingItem = false; }
+        if (valid)
         {
             RefreshItems(item, preserveEditor: true);
+            if (before != (item.Name, item.Info, item.Cost, item.Category))
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -100,8 +115,10 @@ public partial class ItemsTab : UserControl
         if (ItemsListBox.SelectedItem is not Item item) return;
         int index = _displayedItems.IndexOf(item);
         _items.Remove(item);
+        UnsubscribeItem(item);
         _displayedItems.Remove(item);
         RefreshItems(_displayedItems.Count == 0 ? null : _displayedItems[Math.Min(index, _displayedItems.Count - 1)]);
+        ItemsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Создаёт и выбирает новый товар.</summary>
@@ -109,8 +126,10 @@ public partial class ItemsTab : UserControl
     {
         var item = new Item("Новый товар", string.Empty, 0, Category.Electronics);
         _items.Add(item);
+        SubscribeItem(item);
         // Новый товар должен быть доступен для редактирования даже при активном поиске.
         SearchTextBox.Clear();
         RefreshItems(item);
+        ItemsChanged?.Invoke(this, EventArgs.Empty);
     }
 }

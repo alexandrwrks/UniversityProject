@@ -48,7 +48,11 @@ partial class ItemsTab
     /// <summary>Освобождает компоненты вкладки.</summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing) components?.Dispose();
+        if (disposing)
+        {
+            UnsubscribeItems();
+            components?.Dispose();
+        }
         base.Dispose(disposing);
     }
 

@@ -39,7 +39,11 @@ partial class CustomersTab
     /// <summary>Освобождает компоненты вкладки.</summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing) components?.Dispose();
+        if (disposing)
+        {
+            if (_observedAddress != null) _observedAddress.AddressChanged -= Customer_AddressChanged;
+            components?.Dispose();
+        }
         base.Dispose(disposing);
     }
 

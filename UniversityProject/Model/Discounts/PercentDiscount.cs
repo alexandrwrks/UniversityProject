@@ -32,8 +32,7 @@ public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
     /// <summary>Учитывает покупки своей категории для следующих заказов.</summary>
     public void Update(List<Item> items)
     {
-        // После достижения максимума дальнейшее накопление не меняет процент.
-        _purchases = Math.Min(9000, _purchases + CategoryAmount(items));
+        _purchases += CategoryAmount(items);
     }
 
     /// <summary>Суммирует цены товаров соответствующей категории.</summary>

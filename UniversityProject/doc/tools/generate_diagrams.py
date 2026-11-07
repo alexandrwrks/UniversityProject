@@ -3,7 +3,7 @@ Requires Pillow. The lab 4 diagram supplies the unchanged model structure.
 """
 from pathlib import Path
 import xml.etree.ElementTree as E
-import re, html, math, sys
+import re, html, math, sys, heapq, collections
 from PIL import Image, ImageDraw, ImageFont
 BASE=Path(__file__).resolve().parents[1]/'ObjectOrientedPractics'
 FONT='C:/Windows/Fonts/arial.ttf'
@@ -19,6 +19,7 @@ def edge(root,a,b,kind='uses',label='',**kw):
     if kind=='realization':style+='dashed=1;endArrow=block;endFill=0;'
     elif kind=='inheritance':style+='endArrow=block;endFill=0;'
     elif kind=='composition':style+='startArrow=diamond;startFill=1;'
+    elif kind=='aggregation':style+='startArrow=diamond;startFill=0;'
     else:style+='dashed=1;'
     c=E.SubElement(root,'mxCell',id='newedge'+str(len(root)),value=label or kind,style=style,edge='1',parent='1',source=a,target=b)
     E.SubElement(c,'mxGeometry',{'as':'geometry','relative':'1'})
@@ -27,6 +28,91 @@ def append(root,name,lines):
     c=root.find(f"mxCell[@id='{name}']")
     c.set('value',c.get('value')+'<br>'+'<br>'.join(html.escape(v) for v in lines))
     g=c.find('mxGeometry');g.set('height',str(float(g.get('height'))+32*len(lines)))
+
+def route_edges(diagram):
+    """Route connectors through free space, keeping all class rectangles readable."""
+    r = diagram.find('mxGraphModel/root')
+    boxes = {}
+    for c in r.findall("mxCell[@vertex='1']"):
+        g = c.find('mxGeometry')
+        boxes[c.get('id')] = tuple(float(g.get(k, '0')) for k in ['x', 'y', 'width', 'height'])
+    step = 25
+    W = int(max(x+w for x,y,w,h in boxes.values())/step)+12
+    H = int(max(y+h for x,y,w,h in boxes.values())/step)+12
+    blocked = set()
+    for x,y,w,h in boxes.values():
+        for gx in range(int(x/step)-1, int((x+w)/step)+2):
+            for gy in range(int(y/step)-1, int((y+h)/step)+2): blocked.add((gx,gy))
+    used = collections.Counter()
+    edges = r.findall("mxCell[@edge='1']")
+    endpoints = collections.defaultdict(list)
+    faces = {}
+    for c in edges:
+        if c.get('source') not in boxes or c.get('target') not in boxes: continue
+        for key,other in [('source','target'),('target','source')]:
+            name = c.get(key); x,y,w,h = boxes[name]; a,b,cw,ch = boxes[c.get(other)]
+            dx,dy = a+cw/2-(x+w/2),b+ch/2-(y+h/2)
+            if abs(dx)/(w+100) > abs(dy)/(h+100): face = 'right' if dx>0 else 'left'
+            else: face = 'bottom' if dy>0 else 'top'
+            faces[(id(c),key)] = face
+            endpoints[(name,face)].append((c,key))
+    ports = {}
+    for (name,face),entries in endpoints.items():
+        x,y,w,h = boxes[name]
+        for index,(c,key) in enumerate(entries):
+            t = (index+1)/(len(entries)+1)
+            if face in ['top','bottom']:
+                px = round((x+max(30,min(w-30,w*t)))/step)*step
+                py = y if face=='top' else y+h
+                anchor = (int(px/step), int(y/step)-3 if face=='top' else int((y+h)/step)+3)
+                port = (px,py)
+            else:
+                py = y+max(20,min(h-20,h*t)); px=x if face=='left' else x+w
+                anchor = (int(x/step)-3 if face=='left' else int((x+w)/step)+3,round(py/step))
+                port = (px,py)
+            ports[(id(c),key)] = (port,anchor,face)
+    for c in edges:
+        if (id(c),'source') not in ports: continue
+        p,start,face1 = ports[(id(c),'source')]; q,end,face2 = ports[(id(c),'target')]
+        queue = [(0,0,start)]; prev = {}; distance = {start:0}
+        while queue:
+            _,cost,pos = heapq.heappop(queue)
+            if cost!=distance.get(pos):continue
+            if pos==end:break
+            for dx,dy in [(1,0),(-1,0),(0,1),(0,-1)]:
+                nxt=(pos[0]+dx,pos[1]+dy)
+                if not (1<=nxt[0]<W and 1<=nxt[1]<H):continue
+                if nxt in blocked and nxt not in [start,end]:continue
+                value=cost+1+used[nxt]*4
+                if value<distance.get(nxt,float('inf')):
+                    distance[nxt]=value;prev[nxt]=pos
+                    heapq.heappush(queue,(value+abs(nxt[0]-end[0])+abs(nxt[1]-end[1]),value,nxt))
+        if end not in distance:continue
+        path=[end]
+        while path[-1]!=start:path.append(prev[path[-1]])
+        path.reverse()
+        for point in path:used[point]+=1
+        points=[(a*step,b*step) for a,b in path]
+        # Keep each segment orthogonal between the exact boundary port and grid.
+        first=(points[0][0],p[1]) if face1 in ['left','right'] else (p[0],points[0][1])
+        last=(points[-1][0],q[1]) if face2 in ['left','right'] else (q[0],points[-1][1])
+        points=[p,first]+points+[last,q]
+        simplified=[]
+        for point in points:
+            if simplified and point==simplified[-1]:continue
+            if len(simplified)>1 and ((simplified[-2][0]==simplified[-1][0]==point[0]) or (simplified[-2][1]==simplified[-1][1]==point[1])):simplified.pop()
+            simplified.append(point)
+        st=c.get('style','')
+        st=re.sub(r'(exitX|exitY|entryX|entryY)=[^;]*;','',st)
+        a=boxes[c.get('source')];b=boxes[c.get('target')]
+        st+=f'exitX={(p[0]-a[0])/a[2]};exitY={(p[1]-a[1])/a[3]};entryX={(q[0]-b[0])/b[2]};entryY={(q[1]-b[1])/b[3]};'
+        c.set('style',st)
+        geom=c.find('mxGeometry')
+        for child in list(geom):geom.remove(child)
+        arr=E.SubElement(geom,'Array',{'as':'points'})
+        for px,py in simplified[1:-1]:E.SubElement(arr,'mxPoint',x=str(px),y=str(py))
+        # Arrow shapes express relation types; repetitive labels obscure dense diagrams.
+        if c.get('id','').startswith('newedge'):c.set('value','')
 
 def render(diagram,path):
     r=diagram.find('mxGraphModel/root'); boxes={}
@@ -40,7 +126,8 @@ def render(diagram,path):
         ux,uy=dx/l,dy/l
         if typ=='diamond':pts=[q,(q[0]-15*ux+9*uy,q[1]-15*uy-9*ux),(q[0]-30*ux,q[1]-30*uy),(q[0]-15*ux-9*uy,q[1]-15*uy+9*ux)]
         else:pts=[q,(q[0]-24*ux+12*uy,q[1]-24*uy-12*ux),(q[0]-24*ux-12*uy,q[1]-24*uy+12*ux)]
-        d.polygon(pts,fill='#31445b' if fill else 'white',outline='#31445b',width=2)
+        if typ=='open':d.line([pts[1],pts[0],pts[2]],fill='#31445b',width=2)
+        else:d.polygon(pts,fill='#31445b' if fill else 'white',outline='#31445b',width=2)
     for c in r.findall("mxCell[@edge='1']"):
         if c.get('source') not in boxes or c.get('target') not in boxes:continue
         a=boxes[c.get('source')][1];b=boxes[c.get('target')][1];st=dict(x.split('=',1) for x in c.get('style','').split(';') if '=' in x)
@@ -65,6 +152,8 @@ def render(diagram,path):
     for name,(c,(x,y,w,h)) in boxes.items():
         d.rectangle((x,y,x+w,y+h),fill='#edf3fa',outline='#31445b',width=2)
         text=re.sub(r'<hr\s*/?>','\n',c.get('value',''));text=re.sub(r'<br\s*/?>','\n',text);text=html.unescape(re.sub('<[^>]*>','',text))
+        if 'summary=1' in c.get('style',''):
+            d.text((x+20,y+25),text,fill='#182c45',font=bold);continue
         lines=text.splitlines();d.text((x+12,y+10),lines[0],fill='#182c45',font=bold);d.line((x,y+51,x+w,y+51),fill='#31445b',width=2)
         for i,line in enumerate(lines[1:]):d.text((x+12,y+63+i*30),line,fill='#182c45',font=font)
     im.save(path)
@@ -102,14 +191,62 @@ def generate(n):
     for cls in ['ItemsTab','CustomersTab','CartsTab','OrdersTab']:edge(vr,'MainForm',cls,'composition')
     for cls in ['CustomersTab','OrdersTab','PriorityOrdersTab']:edge(vr,cls,'AddressControl','composition')
     edge(vr,'CustomersTab','DiscountCategoryDialog','uses')
+    if n>=8:
+        append(vr, 'CustomersTab', ['<<events>> + CustomersChanged: EventHandler<EventArgs>', '+ RefreshData(): void', '- Customer_AddressChanged(sender, e): void'])
+        append(vr, 'CartsTab', ['<<events>> + OrderCreated: EventHandler<EventArgs>'])
+        append(vr, 'ItemsTab', ['- _observedItems: HashSet<Item>', '- Item_Changed(sender, e): void', '- SubscribeItem(item): void', '- UnsubscribeItem(item): void', '- UnsubscribeItems(): void'])
+        append(vr, 'AddressControl', ['- _editingAddress: bool', '- Address_AddressChanged(sender, e): void'])
+        append(vr, 'MainForm', ['- CustomersTab_CustomersChanged(sender, e): void', '- CartsTab_OrderCreated(sender, e): void'])
+        # A separate reduced diagram shows every production class, without members.
+        summary = E.SubElement(tree.getroot(), 'diagram', name='Overview')
+        sr = E.SubElement(E.SubElement(summary, 'mxGraphModel', pageWidth='6000', pageHeight='5000'), 'root')
+        E.SubElement(sr, 'mxCell', id='0'); E.SubElement(sr, 'mxCell', id='1', parent='0')
+        names = ['Program', 'MainForm', 'Store', 'ItemsTab', 'CustomersTab', 'CartsTab', 'OrdersTab', 'PriorityOrdersTab', 'DiscountCategoryDialog', 'AddressControl', 'Customer', 'Cart', 'Order', 'PriorityOrder', 'Address', 'Item', 'IDiscount', 'PointsDiscount', 'PercentDiscount', 'Category', 'OrderStatus', 'DataTools', 'IdGenerator', 'ValueValidator', 'InputValidation']
+        for i, name in enumerate(names):
+            cell=node(sr, name, 100+(i%5)*1100, 100+(i//5)*650, [], w=850)
+            cell.set('value',html.escape(name));cell.set('style',cell.get('style')+'summary=1;')
+            cell.find('mxGeometry').set('height','120')
+        relations = [
+            ('Program','MainForm','uses'), ('MainForm','Store','composition'),
+            ('MainForm','ItemsTab','composition'), ('MainForm','CustomersTab','composition'),
+            ('MainForm','CartsTab','composition'), ('MainForm','OrdersTab','composition'),
+            ('Store','Customer','composition'), ('Store','Item','composition'),
+            ('Customer','Cart','composition'), ('Customer','Order','composition'),
+            ('Customer','Address','composition'), ('Customer','IDiscount','composition'),
+            ('Cart','Item','aggregation'), ('Order','Item','aggregation'), ('Order','Address','composition'),
+            ('PriorityOrder','Order','inheritance'), ('PointsDiscount','IDiscount','realization'),
+            ('PercentDiscount','IDiscount','realization'), ('Item','Category','uses'), ('Order','OrderStatus','uses'),
+            ('PercentDiscount','Category','uses'), ('ItemsTab','DataTools','uses'), ('ItemsTab','Item','uses'),
+            ('CustomersTab','Customer','uses'), ('CustomersTab','DiscountCategoryDialog','uses'),
+            ('CustomersTab','PointsDiscount','uses'), ('CustomersTab','PercentDiscount','uses'),
+            ('CartsTab','Customer','uses'), ('CartsTab','IDiscount','uses'), ('CartsTab','Order','uses'),
+            ('CartsTab','PriorityOrder','uses'), ('OrdersTab','Order','uses'), ('OrdersTab','PriorityOrder','uses'),
+            ('PriorityOrdersTab','PriorityOrder','uses'), ('PriorityOrdersTab','Item','uses'),
+            ('CustomersTab','AddressControl','composition'), ('OrdersTab','AddressControl','composition'),
+            ('PriorityOrdersTab','AddressControl','composition'), ('AddressControl','Address','uses'),
+            ('Item','IdGenerator','uses'), ('Customer','IdGenerator','uses'), ('Order','IdGenerator','uses'),
+            ('Item','ValueValidator','uses'), ('Customer','ValueValidator','uses'), ('Address','ValueValidator','uses'),
+            ('ItemsTab','InputValidation','uses'), ('CustomersTab','InputValidation','uses'), ('AddressControl','InputValidation','uses'),
+            ('DataTools','Item','uses')]
+        for a,b,kind in relations: edge(sr,a,b,kind)
+
     # Make compartments fit every member, including the new interface methods.
     for diagram in tree.getroot().findall('diagram'):
         for cell in diagram.findall(".//mxCell[@vertex='1']"):
             geom = cell.find('mxGeometry')
             count = len(re.split(r'<br>|<hr>', cell.get('value', '')))
             geom.set('height', str(max(float(geom.get('height')), 85 + 30 * (count - 1))))
+            text=re.sub(r'<hr\s*/?>','\n',cell.get('value',''))
+            text=re.sub(r'<br\s*/?>','\n',text)
+            lines=html.unescape(re.sub('<[^>]*>','',text)).splitlines()
+            regular=ImageFont.truetype(FONT,25)
+            heading=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',29)
+            width=max([heading.getlength(lines[0])]+[regular.getlength(line) for line in lines[1:]])+30
+            geom.set('width',str(max(float(geom.get('width')),math.ceil(width))))
     r.find("mxCell[@id='Category']/mxGeometry").set('y', '3000')
     r.find("mxCell[@id='OrderStatus']/mxGeometry").set('y', '2350')
+    for diagram in tree.getroot().findall('diagram'): route_edges(diagram)
     tree.write(BASE/f'Practics{n}.drawio' ,encoding='utf-8',xml_declaration=True)
     render(model,BASE/f'Practics{n}.png');render(v,BASE/f'Practics{n}-Views.png')
+    if n>=8: render(summary,BASE/f'Practics{n}-Overview.png')
 if __name__=='__main__':generate(int(sys.argv[1]))

@@ -34,7 +34,14 @@ public partial class AddressControl : UserControl
     public Address Address
     {
         get => _address;
-        set { _address = value ?? throw new ArgumentNullException(nameof(value)); ShowAddress(); }
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _address.AddressChanged -= Address_AddressChanged;
+            _address = value;
+            _address.AddressChanged += Address_AddressChanged;
+            ShowAddress();
+        }
     }
 
     /// <summary>Создаёт поля редактора.</summary>
@@ -51,8 +58,18 @@ public partial class AddressControl : UserControl
                 if (!_loading) ValidateField(field);
             };
         }
+        _address.AddressChanged += Address_AddressChanged;
         ShowAddress();
     }
+
+    /// <summary>Обновляет поля при внешнем изменении текущего адреса.</summary>
+    private void Address_AddressChanged(object? sender, EventArgs e)
+    {
+        if (!_editingAddress) ShowAddress();
+    }
+
+    /// <summary>Отличает собственный ввод от внешнего изменения модели.</summary>
+    private bool _editingAddress;
 
     /// <summary>Проверяет все поля, например перед созданием покупателя.</summary>
     public bool ValidateAddress()
@@ -75,7 +92,15 @@ public partial class AddressControl : UserControl
     }
 
     /// <summary>Проверяет и сохраняет одно поле без потери остальных корректных полей.</summary>
-    private bool ValidateField(int index) => InputValidation.Apply(_fields[index], _errors, () =>
+    private bool ValidateField(int index)
+    {
+        _editingAddress = true;
+        try { return ValidateFieldCore(index); }
+        finally { _editingAddress = false; }
+    }
+
+    /// <summary>Проверяет конкретное поле, сохраняя независимость ошибок ввода.</summary>
+    private bool ValidateFieldCore(int index) => InputValidation.Apply(_fields[index], _errors, () =>
     {
         string text = _fields[index].Text;
         switch (index)
@@ -95,7 +120,11 @@ public partial class AddressControl : UserControl
     /// <summary>Освобождает ресурсы подсказок.</summary>
     protected override void Dispose(bool disposing)
     {
-        if (disposing) _errors.Dispose();
+        if (disposing)
+        {
+            _address.AddressChanged -= Address_AddressChanged;
+            _errors.Dispose();
+        }
         base.Dispose(disposing);
     }
 }

@@ -7,6 +7,9 @@ namespace UniversityProject.View.Tabs;
 /// <summary>Выбор товаров, работа с корзинами и оформление заказов.</summary>
 public partial class CartsTab : UserControl
 {
+    /// <summary>Уведомляет о создании заказа и изменении накопленных скидок.</summary>
+    public event EventHandler<EventArgs>? OrderCreated;
+
     /// <summary>Каталог товаров магазина.</summary>
     private List<Item> _items = new();
     /// <summary>Покупатели магазина.</summary>
@@ -135,5 +138,6 @@ public partial class CartsTab : UserControl
         CurrentCustomer.Cart.Items.Clear();
         ShowDiscounts(false);
         ShowCart();
+        OrderCreated?.Invoke(this, EventArgs.Empty);
     }
 }
