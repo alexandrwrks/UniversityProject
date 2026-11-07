@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+using System.ComponentModel;
 using UniversityProject.Model;
 using UniversityProject.View.Controls;
 

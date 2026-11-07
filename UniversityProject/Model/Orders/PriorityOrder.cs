@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.Model.Orders;
 
 /// <summary>Заказ с возможностью выбрать дату и интервал доставки.</summary>
 public class PriorityOrder : Order

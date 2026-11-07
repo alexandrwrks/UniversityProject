@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.Model.Enums;
 
 /// <summary>Категория товара.</summary>
 public enum Category

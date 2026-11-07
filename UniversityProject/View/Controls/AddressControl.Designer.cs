@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.View.Controls;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.View.Controls;
 
 partial class AddressControl
 {

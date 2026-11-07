@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.View.Controls;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.View.Controls;
 
 /// <summary>Проверка редактора с подсветкой и пояснением ошибки.</summary>
 internal static class InputValidation

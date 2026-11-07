@@ -1,3 +1,6 @@
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
 using System.Reflection;
 using UniversityProject.Model;
 using UniversityProject.Services;
@@ -161,4 +164,3 @@ internal static partial class Program
         Console.WriteLine($"PASS: {_checks} checks");
     }
 }
-

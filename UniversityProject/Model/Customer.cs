@@ -1,4 +1,7 @@
-﻿using UniversityProject.Services;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+using UniversityProject.Services;
 
 namespace UniversityProject.Model;
 
@@ -42,6 +45,9 @@ public class Customer
 
     /// <summary>Признак приоритетного обслуживания; по умолчанию false.</summary>
     public bool IsPriority { get; set; }
+
+    /// <summary>Скидки покупателя; первая накопительная создаётся вместе с ним.</summary>
+    public List<IDiscount> Discounts { get; } = new() { new PointsDiscount() };
 
     /// <summary>Создаёт покупателя с проверенным именем и адресом.</summary>
     /// <param name="fullname">Полное имя.</param>

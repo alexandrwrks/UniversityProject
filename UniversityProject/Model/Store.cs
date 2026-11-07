@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.Model;
 
 /// <summary>Единая точка хранения товаров и покупателей магазина.</summary>
 public class Store

@@ -1,7 +1,10 @@
-namespace UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.Model.Discounts;
 
 /// <summary>Накопительная скидка: один балл равен одному рублю.</summary>
-public class PointsDiscount
+public class PointsDiscount : IDiscount
 {
     /// <summary>Целые накопленные баллы, не меньше нуля.</summary>
     public int Points { get; private set; }

@@ -1,4 +1,7 @@
-﻿namespace UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model.Discounts;
+namespace UniversityProject.Model;
 
 /// <summary>Корзина покупателя, агрегирующая существующие товары.</summary>
 public class Cart
