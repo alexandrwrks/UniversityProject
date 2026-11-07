@@ -1,7 +1,7 @@
 namespace UniversityProject.Model.Discounts;
 
 /// <summary>Накопительная скидка: один балл равен одному рублю.</summary>
-public class PointsDiscount : IDiscount
+public class PointsDiscount : IDiscount, IComparable<PointsDiscount>
 {
     /// <summary>Целые накопленные баллы, не меньше нуля.</summary>
     public int Points { get; private set; }
@@ -37,4 +37,8 @@ public class PointsDiscount : IDiscount
         foreach (Item item in items) sum += item.Cost;
         return sum;
     }
+
+    /// <summary>Сравнивает накопленные баллы; скидка больше null.</summary>
+    public int CompareTo(PointsDiscount? other) => other is null ? 1 : Points.CompareTo(other.Points);
+
 }

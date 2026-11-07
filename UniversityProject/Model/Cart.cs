@@ -1,7 +1,7 @@
 namespace UniversityProject.Model;
 
 /// <summary>Корзина покупателя, агрегирующая существующие товары.</summary>
-public class Cart
+public class Cart : ICloneable
 {
     /// <summary>Товары корзины; одинаковый товар может встречаться несколько раз.</summary>
     private List<Item> _items = new();
@@ -23,4 +23,8 @@ public class Cart
             return amount;
         }
     }
+
+    /// <summary>Копирует контейнер корзины; агрегируемые товары сохраняются по ссылке.</summary>
+    public object Clone() => new Cart { Items = new List<Item>(Items) };
+
 }
