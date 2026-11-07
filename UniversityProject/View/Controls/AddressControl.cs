@@ -1,4 +1,4 @@
-﻿using UniversityProject.Model;
+using UniversityProject.Model;
 
 namespace UniversityProject.View.Controls;
 

@@ -1,4 +1,4 @@
-﻿using UniversityProject.Services;
+using UniversityProject.Services;
 
 namespace UniversityProject.Model;
 

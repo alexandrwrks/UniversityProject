@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.View.Tabs;
+namespace UniversityProject.View.Tabs;
 
 partial class CustomersTab
 {

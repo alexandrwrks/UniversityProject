@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.View.Controls;
+namespace UniversityProject.View.Controls;
 
 partial class AddressControl
 {

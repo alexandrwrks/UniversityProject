@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using UniversityProject.Model;
 using UniversityProject.View.Controls;
 
@@ -42,6 +42,7 @@ public partial class CustomersTab : UserControl
             if (!_loading && CustomersListBox.SelectedItem is Customer customer)
                 customer.IsPriority = IsPriorityCheckBox.Checked;
         };
+        InitializeDiscounts();
         ShowCustomer();
     }
 
@@ -67,6 +68,7 @@ public partial class CustomersTab : UserControl
         FullnameTextBox.BackColor = SystemColors.Window; _errors.SetError(FullnameTextBox, string.Empty);
         DeliveryAddressControl.Address = customer?.Address ?? new Address();
         _loading = false;
+        ShowDiscounts();
     }
 
     /// <summary>Удаляет выбранного покупателя.</summary>

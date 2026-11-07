@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.Model;
+namespace UniversityProject.Model.Enums;
 
 /// <summary>Категория товара.</summary>
 public enum Category

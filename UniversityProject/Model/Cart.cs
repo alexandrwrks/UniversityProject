@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.Model;
+namespace UniversityProject.Model;
 
 /// <summary>Корзина покупателя, агрегирующая существующие товары.</summary>
 public class Cart

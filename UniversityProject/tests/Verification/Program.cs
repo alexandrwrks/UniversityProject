@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+using UniversityProject.Model.Enums;
+using System.Reflection;
 using UniversityProject.Model;
 using UniversityProject.Services;
 using UniversityProject.View.Controls;
@@ -154,6 +155,9 @@ internal static partial class Program
         }
         VerifyLab3(form);
         VerifyLab4(form);
+        VerifyLab5Discounts();
+        VerifyLab5Customers();
+        VerifyLab5Checkout();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();

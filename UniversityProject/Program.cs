@@ -1,4 +1,6 @@
-﻿using UniversityProject.Model;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using UniversityProject.Model;
 using UniversityProject.View.Tabs;
 
 namespace UniversityProject;

@@ -1,6 +1,7 @@
-﻿using UniversityProject.Services;
+using UniversityProject.Model.Enums;
+using UniversityProject.Services;
 
-namespace UniversityProject.Model;
+namespace UniversityProject.Model.Orders;
 
 /// <summary>Заказ с отдельным списком ссылок на купленные товары.</summary>
 public class Order
@@ -42,6 +43,24 @@ public class Order
     }
     /// <summary>Текущий статус заказа.</summary>
     public OrderStatus Status { get; set; } = OrderStatus.New;
+
+    /// <summary>Применённая при оформлении конечная неотрицательная скидка.</summary>
+    public double DiscountAmount
+    {
+        get => _discountAmount;
+        set
+        {
+            if (!double.IsFinite(value) || value < 0)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            _discountAmount = value;
+        }
+    }
+
+    /// <summary>Размер скидки, зафиксированный при оформлении.</summary>
+    private double _discountAmount;
+
+    /// <summary>Стоимость товаров за вычетом применённой скидки.</summary>
+    public double Total => Amount - DiscountAmount;
 
     /// <summary>Создаёт заказ с копией адреса и отдельным списком тех же объектов товаров.</summary>
     /// <param name="address">Адрес покупателя на момент оформления.</param>

@@ -1,4 +1,5 @@
-﻿namespace UniversityProject.View.Tabs;
+using UniversityProject.Model.Orders;
+namespace UniversityProject.View.Tabs;
 
 partial class OrdersTab
 {

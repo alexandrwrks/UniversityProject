@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.Model;
+namespace UniversityProject.Model;
 
 /// <summary>Единая точка хранения товаров и покупателей магазина.</summary>
 public class Store

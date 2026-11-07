@@ -1,4 +1,5 @@
-﻿using UniversityProject.Services;
+using UniversityProject.Model.Enums;
+using UniversityProject.Services;
 
 namespace UniversityProject.Model;
 

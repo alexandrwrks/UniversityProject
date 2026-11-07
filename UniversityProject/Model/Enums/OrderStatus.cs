@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.Model;
+namespace UniversityProject.Model.Enums;
 
 /// <summary>Состояние заказа в процессе выполнения.</summary>
 public enum OrderStatus

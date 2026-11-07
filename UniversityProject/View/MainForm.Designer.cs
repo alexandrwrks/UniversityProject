@@ -1,4 +1,4 @@
-﻿namespace UniversityProject;
+namespace UniversityProject;
 
 partial class MainForm
 {

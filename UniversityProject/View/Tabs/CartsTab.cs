@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using UniversityProject.Model.Orders;
+using System.ComponentModel;
 using UniversityProject.Model;
 
 namespace UniversityProject.View.Tabs;
@@ -38,6 +39,7 @@ public partial class CartsTab : UserControl
         {
             if (_loading) return;
             CurrentCustomer = CustomersComboBox.SelectedItem as Customer;
+            ShowDiscounts(true);
             ShowCart();
         };
         ItemsListBox.SelectedIndexChanged += (_, _) => UpdateButtons();
@@ -46,6 +48,7 @@ public partial class CartsTab : UserControl
         RemoveItemButton.Click += RemoveItemButton_Click;
         ClearCartButton.Click += ClearCartButton_Click;
         CreateOrderButton.Click += CreateOrderButton_Click;
+        InitializeDiscounts();
         RefreshData();
     }
 
@@ -63,6 +66,7 @@ public partial class CartsTab : UserControl
         CurrentCustomer = customer != null && _customers.Contains(customer) ? customer : null;
         CustomersComboBox.SelectedItem = CurrentCustomer;
         _loading = false;
+        ShowDiscounts(false);
         ShowCart();
     }
 
@@ -75,6 +79,7 @@ public partial class CartsTab : UserControl
         if (selectedIndex >= 0 && CartListBox.Items.Count > 0)
             CartListBox.SelectedIndex = Math.Min(selectedIndex, CartListBox.Items.Count - 1);
         AmountLabel.Text = (CurrentCustomer?.Cart.Amount ?? 0).ToString("N2");
+        UpdateDiscountTotals();
         UpdateButtons();
     }
 
@@ -120,8 +125,15 @@ public partial class CartsTab : UserControl
         Order order = CurrentCustomer.IsPriority
             ? new PriorityOrder(CurrentCustomer.Address, CurrentCustomer.Cart.Items, DateTime.Today, PriorityOrder.DeliveryTimes[0])
             : new Order(CurrentCustomer.Address, CurrentCustomer.Cart.Items);
+        double discountAmount = 0;
+        foreach (IDiscount discount in DiscountsCheckedListBox.CheckedItems)
+            discountAmount += discount.Apply(CurrentCustomer.Cart.Items);
+        foreach (IDiscount discount in CurrentCustomer.Discounts)
+            discount.Update(CurrentCustomer.Cart.Items);
+        order.DiscountAmount = discountAmount;
         CurrentCustomer.Orders.Add(order);
         CurrentCustomer.Cart.Items.Clear();
+        ShowDiscounts(false);
         ShowCart();
     }
 }

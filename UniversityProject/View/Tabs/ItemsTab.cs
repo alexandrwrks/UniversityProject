@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using UniversityProject.Model.Enums;
+using System.ComponentModel;
 using System.Globalization;
 using UniversityProject.Model;
 using UniversityProject.View.Controls;

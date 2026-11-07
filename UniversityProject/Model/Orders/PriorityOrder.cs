@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.Model;
+namespace UniversityProject.Model.Orders;
 
 /// <summary>Заказ с возможностью выбрать дату и интервал доставки.</summary>
 public class PriorityOrder : Order

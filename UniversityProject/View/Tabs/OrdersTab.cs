@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+using UniversityProject.Model.Enums;
+using UniversityProject.Model.Orders;
+using System.ComponentModel;
 using UniversityProject.Model;
 
 namespace UniversityProject.View.Tabs;
@@ -10,6 +12,8 @@ public partial class OrdersTab : UserControl
     private List<Customer> _customers = new();
     /// <summary>Подавляет обработку выбора при заполнении редакторов.</summary>
     private bool _loading;
+    /// <summary>Конечная стоимость выбранного заказа.</summary>
+    private readonly Label TotalLabel = new() { Name = "TotalLabel", AutoSize = true, Anchor = AnchorStyles.Right };
 
     /// <summary>Выбранный заказ через ссылку базового класса.</summary>
     private Order? _selectedOrder;
@@ -35,6 +39,21 @@ public partial class OrdersTab : UserControl
     public OrdersTab()
     {
         InitializeComponent();
+        OrdersDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+        {
+            Name = "TotalColumn", HeaderText = "Total", SortMode = DataGridViewColumnSortMode.NotSortable,
+            DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
+        });
+        EditorLayout.MinimumSize = new Size(350, 510);
+        EditorLayout.Dock = DockStyle.Top;
+        EditorPanel.AutoScrollMinSize = new Size(0, 510);
+        EditorPanel.SizeChanged += (_, _) => EditorLayout.Height = Math.Max(510, EditorPanel.ClientSize.Height);
+        EditorLayout.Height = Math.Max(510, EditorPanel.ClientSize.Height);
+        HeaderLayout.ColumnStyles[0].Width = 44;
+        HeaderLayout.ColumnStyles[1].Width = 56;
+        EditorLayout.RowCount = 7;
+        EditorLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        EditorLayout.Controls.Add(TotalLabel, 0, 6);
         StatusComboBox.DataSource = Enum.GetValues<OrderStatus>();
         DeliveryTimeComboBox.DataSource = PriorityOrder.DeliveryTimes.ToArray();
         DeliveryTimeComboBox.SelectedIndexChanged += (_, _) =>
@@ -71,7 +90,7 @@ public partial class OrdersTab : UserControl
         {
             foreach (Order order in customer.Orders)
             {
-                int index = OrdersDataGridView.Rows.Add(order.Id, order.CreationDate, customer.Fullname, order.Address.ToString(), order.Amount, order.Status);
+                int index = OrdersDataGridView.Rows.Add(order.Id, order.CreationDate, customer.Fullname, order.Address.ToString(), order.Amount, order.Status, order.Total);
                 OrdersDataGridView.Rows[index].Tag = order;
             }
         }
@@ -113,6 +132,7 @@ public partial class OrdersTab : UserControl
         OrderItemsListBox.Items.Clear();
         if (order != null) OrderItemsListBox.Items.AddRange(order.Items.Cast<object>().ToArray());
         AmountLabel.Text = (order?.Amount ?? 0).ToString("N2");
+        TotalLabel.Text = "Total: " + (order?.Total ?? 0).ToString("N2");
         _loading = false;
     }
 }

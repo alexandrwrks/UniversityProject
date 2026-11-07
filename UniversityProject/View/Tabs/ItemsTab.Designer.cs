@@ -1,4 +1,5 @@
-﻿namespace UniversityProject.View.Tabs;
+using UniversityProject.Model.Enums;
+namespace UniversityProject.View.Tabs;
 
 partial class ItemsTab
 {

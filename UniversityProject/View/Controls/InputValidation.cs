@@ -1,4 +1,4 @@
-﻿namespace UniversityProject.View.Controls;
+namespace UniversityProject.View.Controls;
 
 /// <summary>Проверка редактора с подсветкой и пояснением ошибки.</summary>
 internal static class InputValidation
