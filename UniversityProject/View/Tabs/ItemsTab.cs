@@ -2,6 +2,7 @@ using UniversityProject.Model.Enums;
 using System.ComponentModel;
 using System.Globalization;
 using UniversityProject.Model;
+using UniversityProject.Services;
 using UniversityProject.View.Controls;
 
 namespace UniversityProject.View.Tabs;
@@ -41,16 +42,29 @@ public partial class ItemsTab : UserControl
             item.Cost = cost;
         });
         CategoryComboBox.SelectedIndexChanged += (_, _) => UpdateField(CategoryComboBox, item => { if (CategoryComboBox.SelectedItem is Category category) item.Category = category; });
+        InitializeSearch();
         ShowItem();
     }
 
     /// <summary>Обновляет список, сохраняя выбор по ссылке на объект.</summary>
-    private void RefreshItems(Item? selected = null)
+    private void RefreshItems(Item? selected = null, bool preserveEditor = false)
     {
+        _displayedItems = DataTools.Filter(_items, item =>
+            item.Name.Contains(SearchTextBox.Text, StringComparison.CurrentCultureIgnoreCase));
+        Func<Item, Item, bool> compare = SortComboBox.SelectedIndex switch
+        {
+            1 => DataTools.CostAscending,
+            2 => DataTools.CostDescending,
+            _ => DataTools.NameAscending
+        };
+        _displayedItems = DataTools.Sort(_displayedItems, compare);
         _loading = true;
-        ItemsListBox.DataSource = null; ItemsListBox.DataSource = _items;
-        ItemsListBox.SelectedIndex = selected == null ? -1 : _items.IndexOf(selected);
-        _loading = false; ShowItem();
+        ItemsListBox.DataSource = null;
+        ItemsListBox.DataSource = _displayedItems;
+        ItemsListBox.SelectedItem = selected;
+        if (selected == null || !_displayedItems.Contains(selected)) ItemsListBox.SelectedIndex = -1;
+        _loading = false;
+        if (!preserveEditor || ItemsListBox.SelectedItem == null) ShowItem();
     }
 
     /// <summary>Отображает выбранный товар; без выбора поля недоступны.</summary>
@@ -76,10 +90,7 @@ public partial class ItemsTab : UserControl
         if (_loading || ItemsListBox.SelectedItem is not Item item) return;
         if (InputValidation.Apply(field, _errors, () => update(item)))
         {
-            _loading = true;
-            ((CurrencyManager)BindingContext![_items]!).Refresh();
-            ItemsListBox.SelectedItem = item;
-            _loading = false;
+            RefreshItems(item, preserveEditor: true);
         }
     }
 
@@ -87,14 +98,19 @@ public partial class ItemsTab : UserControl
     private void RemoveButton_Click(object sender, EventArgs e)
     {
         if (ItemsListBox.SelectedItem is not Item item) return;
-        int index = _items.IndexOf(item); _items.Remove(item);
-        RefreshItems(_items.Count == 0 ? null : _items[Math.Min(index, _items.Count - 1)]);
+        int index = _displayedItems.IndexOf(item);
+        _items.Remove(item);
+        _displayedItems.Remove(item);
+        RefreshItems(_displayedItems.Count == 0 ? null : _displayedItems[Math.Min(index, _displayedItems.Count - 1)]);
     }
 
     /// <summary>Создаёт и выбирает новый товар.</summary>
     private void AddButton_Click(object sender, EventArgs e)
     {
         var item = new Item("Новый товар", string.Empty, 0, Category.Electronics);
-        _items.Add(item); RefreshItems(item);
+        _items.Add(item);
+        // Новый товар должен быть доступен для редактирования даже при активном поиске.
+        SearchTextBox.Clear();
+        RefreshItems(item);
     }
 }

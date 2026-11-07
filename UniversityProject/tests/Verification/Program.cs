@@ -81,12 +81,12 @@ internal static partial class Program
         var second = new Item("Второй", "Описание 2", 20, Category.Books);
         items.Items = new List<Item> { first, second };
         var itemList = Field<ListBox>(items, "ItemsListBox");
-        itemList.SelectedIndex = 1;
+        itemList.SelectedItem = second;
         Field<TextBox>(items, "NameTextBox").Text = "Второй изменён";
         Check(ReferenceEquals(itemList.SelectedItem, second) && first.Name == "Первый" && second.Name == "Второй изменён", "Editing changed selected row");
         Field<TextBox>(items, "CostTextBox").Text = "-1";
         Check(second.Cost == 20 && Field<TextBox>(items, "CostTextBox").BackColor == Color.MistyRose, "Invalid cost changed model");
-        itemList.SelectedIndex = 0;
+        itemList.SelectedItem = first;
         Check(Field<TextBox>(items, "CostTextBox").Text == "10" && Field<TextBox>(items, "CostTextBox").BackColor != Color.MistyRose, "Selection retained previous error");
         Check((Category)Field<ComboBox>(items, "CategoryComboBox").SelectedItem! == Category.Food, "Selected category differs from model");
         Reject(() => items.Items = null!);
@@ -159,6 +159,7 @@ internal static partial class Program
         VerifyLab5Customers();
         VerifyLab5Checkout();
         VerifyLab6();
+        VerifyLab7();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();
