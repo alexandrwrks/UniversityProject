@@ -158,6 +158,7 @@ internal static partial class Program
         VerifyLab3(form);
         VerifyLab4(form);
         VerifyLab5Discounts();
+        VerifyLab5Customers();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();

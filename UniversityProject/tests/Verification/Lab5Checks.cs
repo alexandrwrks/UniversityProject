@@ -5,6 +5,24 @@ using UniversityProject.Model;
 
 internal static partial class Program
 {
+    private static void VerifyLab5Customers()
+    {
+        var customer = new Customer("Покупатель", new Address());
+        Check(customer.Discounts.Count == 1 && customer.Discounts[0] is PointsDiscount, "Mandatory discount");
+        using var tab = new UniversityProject.View.Tabs.CustomersTab { Customers = new() { customer } };
+        Field<ListBox>(tab, "CustomersListBox").SelectedItem = customer;
+        var list = Field<ListBox>(tab, "DiscountsListBox");
+        list.SelectedIndex = 0;
+        Check(!Field<Button>(tab, "RemoveDiscountButton").Enabled, "Mandatory discount removable");
+        customer.Discounts.Add(new PercentDiscount(Category.Food));
+        // Re-select the customer to display the changed model.
+        Field<ListBox>(tab, "CustomersListBox").SelectedIndex = -1;
+        Field<ListBox>(tab, "CustomersListBox").SelectedIndex = 0;
+        list.SelectedIndex = 1;
+        Field<Button>(tab, "RemoveDiscountButton").PerformClick();
+        Check(customer.Discounts.Count == 1 && list.Items.Count == 1, "Remove category discount");
+    }
+
     private static void VerifyLab5Discounts()
     {
         var goods = new List<Item> { new("Книга", "", 1000, Category.Books), new("Еда", "", 10, Category.Food) };
