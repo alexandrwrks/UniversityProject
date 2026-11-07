@@ -19,7 +19,12 @@ public partial class CustomersTab : UserControl
     public List<Customer> Customers
     {
         get => _customers;
-        set { _customers = value ?? throw new ArgumentNullException(nameof(value)); RefreshCustomers(); }
+        set
+        {
+            _customers = value ?? throw new ArgumentNullException(nameof(value));
+            RefreshCustomers();
+            CustomersChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     /// <summary>Создаёт редактор покупателя со встроенным редактором адреса.</summary>
@@ -35,12 +40,16 @@ public partial class CustomersTab : UserControl
             if (InputValidation.Apply(FullnameTextBox, _errors, () => customer.Fullname = FullnameTextBox.Text))
             {
                 _loading = true; ((CurrencyManager)BindingContext![_customers]!).Refresh(); CustomersListBox.SelectedItem = customer; _loading = false;
+                CustomersChanged?.Invoke(this, EventArgs.Empty);
             }
         };
         IsPriorityCheckBox.CheckedChanged += (_, _) =>
         {
             if (!_loading && CustomersListBox.SelectedItem is Customer customer)
+            {
                 customer.IsPriority = IsPriorityCheckBox.Checked;
+                CustomersChanged?.Invoke(this, EventArgs.Empty);
+            }
         };
         InitializeDiscounts();
         ShowCustomer();
@@ -66,6 +75,9 @@ public partial class CustomersTab : UserControl
         IsPriorityCheckBox.Enabled = customer != null;
         FullnameTextBox.Enabled = DeliveryAddressControl.Enabled = RemoveButton.Enabled = customer != null;
         FullnameTextBox.BackColor = SystemColors.Window; _errors.SetError(FullnameTextBox, string.Empty);
+        if (_observedAddress != null) _observedAddress.AddressChanged -= Customer_AddressChanged;
+        _observedAddress = customer?.Address;
+        if (_observedAddress != null) _observedAddress.AddressChanged += Customer_AddressChanged;
         DeliveryAddressControl.Address = customer?.Address ?? new Address();
         _loading = false;
         ShowDiscounts();
@@ -77,6 +89,7 @@ public partial class CustomersTab : UserControl
         if (CustomersListBox.SelectedItem is not Customer customer) return;
         int index = _customers.IndexOf(customer); _customers.Remove(customer);
         RefreshCustomers(_customers.Count == 0 ? null : _customers[Math.Min(index, _customers.Count - 1)]);
+        CustomersChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Создаёт покупателя с отдельным адресом.</summary>
@@ -84,5 +97,20 @@ public partial class CustomersTab : UserControl
     {
         var customer = new Customer("Новый покупатель", new Address());
         _customers.Add(customer); RefreshCustomers(customer);
+        CustomersChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>Изменение состава покупателей, их данных или скидок.</summary>
+    public event EventHandler<EventArgs>? CustomersChanged;
+    /// <summary>Адрес выбранного покупателя, подписка которого должна освобождаться.</summary>
+    private Address? _observedAddress;
+
+    /// <summary>Обновляет покупателей и скидки после оформления заказа.</summary>
+    public void RefreshData() => RefreshCustomers(CustomersListBox.SelectedItem as Customer);
+
+    /// <summary>Передаёт изменение адреса заинтересованным вкладкам.</summary>
+    private void Customer_AddressChanged(object? sender, EventArgs e)
+    {
+        if (!_loading) CustomersChanged?.Invoke(this, EventArgs.Empty);
     }
 }

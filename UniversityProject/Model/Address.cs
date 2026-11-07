@@ -5,6 +5,9 @@ namespace UniversityProject.Model;
 /// <summary>Составной адрес доставки.</summary>
 public class Address : ICloneable, IEquatable<Address>
 {
+    /// <summary>Уведомляет о фактическом изменении любой составляющей адреса.</summary>
+    public event EventHandler<EventArgs>? AddressChanged;
+
     /// <summary>Почтовый индекс из шести цифр.</summary>
     private int _index = 100000;
     /// <summary>Страна, до 50 символов.</summary>
@@ -24,7 +27,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             if (value < 100000 || value > 999999) throw new ArgumentOutOfRangeException(nameof(Index), "Индекс должен содержать шесть цифр.");
+            if (_index == value) return;
             _index = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Страна, до 50 символов.</summary>
@@ -34,7 +39,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             ValueValidator.AssertStringOnLength(value, 50, nameof(Country));
+            if (_country == value) return;
             _country = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Город, до 50 символов.</summary>
@@ -44,7 +51,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             ValueValidator.AssertStringOnLength(value, 50, nameof(City));
+            if (_city == value) return;
             _city = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Улица, до 100 символов.</summary>
@@ -54,7 +63,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             ValueValidator.AssertStringOnLength(value, 100, nameof(Street));
+            if (_street == value) return;
             _street = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Дом, до 10 символов.</summary>
@@ -64,7 +75,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             ValueValidator.AssertStringOnLength(value, 10, nameof(Building));
+            if (_building == value) return;
             _building = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Квартира, до 10 символов.</summary>
@@ -74,7 +87,9 @@ public class Address : ICloneable, IEquatable<Address>
         set
         {
             ValueValidator.AssertStringOnLength(value, 10, nameof(Apartment));
+            if (_apartment == value) return;
             _apartment = value;
+            AddressChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Создаёт пустой адрес с минимальным допустимым индексом.</summary>

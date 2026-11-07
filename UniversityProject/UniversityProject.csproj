@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -11,8 +11,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="View/Resources/Store.ico" />
-    <Compile Remove="tmp/**/*.cs;tests/**/*.cs" />
-    <EmbeddedResource Remove="tmp/**/*;tests/**/*" />
-    <None Remove="tmp/**/*;tests/**/*" />
+    <Compile Remove="tmp/**/*.cs;tests/**/*.cs;demos/**/*.cs" />
+    <EmbeddedResource Remove="tmp/**/*;tests/**/*;demos/**/*" />
+    <None Remove="tmp/**/*;tests/**/*;demos/**/*" />
   </ItemGroup>
 </Project>

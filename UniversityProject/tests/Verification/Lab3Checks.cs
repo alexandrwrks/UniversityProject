@@ -99,6 +99,7 @@ internal static partial class Program
         Check(placed.Amount == 125.5 && (double)grid.Rows[0].Cells[4].Value! == 125.5 && Field<Label>(orders, "AmountLabel").Text == 125.5.ToString("N2"), "Shared price or orders refresh failed");
         Check(ReferenceEquals(grid.CurrentRow?.Tag, placed), "Order selection lost after refresh");
         store.Items.RemoveAt(0);
+        itemsTab.Items = store.Items;
         tabs.SelectedIndex = 2;
         Check(catalog.Items.Count == 0 && placed.Items.Count == 1, "Catalog deletion destroyed aggregated item");
         store.Customers.Remove(buyer1);
@@ -109,6 +110,7 @@ internal static partial class Program
         buyer2.Cart.Items.Add(product);
         buyer2.Orders.Add(new Order(buyer2.Address, new List<Item> { product, product }));
         carts.RefreshData();
+        orders.RefreshData();
         for (int widthIndex = 0; widthIndex < 2; widthIndex++)
         {
             form.Size = widthIndex == 0 ? new Size(820, 490) : new Size(1100, 730);

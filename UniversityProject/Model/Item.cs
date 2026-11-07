@@ -6,6 +6,13 @@ namespace UniversityProject.Model;
 /// <summary>Товар магазина с уникальным идентификатором.</summary>
 public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
 {
+    /// <summary>Уведомляет об изменении названия после проверки значения.</summary>
+    public event EventHandler<EventArgs>? NameChanged;
+    /// <summary>Уведомляет об изменении описания после проверки значения.</summary>
+    public event EventHandler<EventArgs>? InfoChanged;
+    /// <summary>Уведомляет об изменении стоимости после проверки значения.</summary>
+    public event EventHandler<EventArgs>? CostChanged;
+
     /// <summary>Уникальный номер.</summary>
     private readonly int _id;
     /// <summary>Название.</summary>
@@ -24,7 +31,9 @@ public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
         set
         {
             ValueValidator.AssertStringOnLength(value, 200, nameof(Name));
+            if (_name == value) return;
             _name = value;
+            NameChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Описание длиной до 1000 символов.</summary>
@@ -34,7 +43,9 @@ public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
         set
         {
             ValueValidator.AssertStringOnLength(value, 1000, nameof(Info));
+            if (_info == value) return;
             _info = value;
+            InfoChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Конечная стоимость от 0 до 100000 включительно.</summary>
@@ -44,7 +55,9 @@ public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
         set
         {
             ValueValidator.AssertDoubleValue(value, 100000, nameof(Cost));
+            if (_cost == value) return;
             _cost = value;
+            CostChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     /// <summary>Категория товара.</summary>

@@ -41,6 +41,7 @@ public partial class CustomersTab
             if (dialog.ShowDialog(this) != DialogResult.OK) return;
             customer.Discounts.Add(new PercentDiscount(dialog.SelectedCategory));
             ShowDiscounts();
+            CustomersChanged?.Invoke(this, EventArgs.Empty);
         };
         RemoveDiscountButton.Click += (_, _) =>
         {
@@ -48,6 +49,7 @@ public partial class CustomersTab
                 DiscountsListBox.SelectedItem is not IDiscount discount || discount is PointsDiscount) return;
             customer.Discounts.Remove(discount);
             ShowDiscounts();
+            CustomersChanged?.Invoke(this, EventArgs.Empty);
         };
     }
 

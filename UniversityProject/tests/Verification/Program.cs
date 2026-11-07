@@ -160,6 +160,7 @@ internal static partial class Program
         VerifyLab5Checkout();
         VerifyLab6();
         VerifyLab7();
+        VerifyLab8();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();
