@@ -1,5 +1,4 @@
 using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
 using UniversityProject.Model.Discounts;
 using UniversityProject.Model;
 
@@ -50,4 +49,44 @@ internal static partial class Program
         Reject(() => percent.Update(null!));
         Reject(() => new PercentDiscount((Category)99));
     }
+    private static void VerifyLab5Checkout()
+    {
+        var buyer = new Customer("Проверка скидок", new Address());
+        var item = new Item("Книга", "", 1000, Category.Books);
+        var goods = new List<Item> { item };
+        buyer.Discounts[0].Update(goods);
+        buyer.Discounts.Add(new PercentDiscount(Category.Books));
+        using var tab = new UniversityProject.View.Tabs.CartsTab { Items = goods, Customers = new() { buyer } };
+        Field<ComboBox>(tab, "CustomersComboBox").SelectedItem = buyer;
+        Field<ListBox>(tab, "ItemsListBox").SelectedIndex = 0;
+        Field<Button>(tab, "AddToCartButton").PerformClick();
+        var checks = Field<CheckedListBox>(tab, "DiscountsCheckedListBox");
+        Check(checks.CheckedItems.Count == 2, "All discounts initially checked");
+        Check(Field<Label>(tab, "DiscountAmountLabel").Text == 110d.ToString("N2"), "Preview discount");
+        checks.SetItemChecked(0, false);
+        Check(Field<Label>(tab, "TotalLabel").Text == 990d.ToString("N2"), "Immediate checkbox preview");
+        tab.RefreshData();
+        Check(!checks.GetItemChecked(0), "Refresh reset discount choice");
+        Field<Button>(tab, "CreateOrderButton").PerformClick();
+        Check(buyer.Orders[0].DiscountAmount == 10 && buyer.Orders[0].Total == 990, "Persist checkout discount");
+        Check(((PointsDiscount)buyer.Discounts[0]).Points == 200 && ((PercentDiscount)buyer.Discounts[1]).Percent == 2, "Update all discounts after checkout");
+        Field<Button>(tab, "AddToCartButton").PerformClick();
+        checks.SetItemChecked(0, true);
+        Field<Button>(tab, "CreateOrderButton").PerformClick();
+        Check(buyer.Orders[1].DiscountAmount == 220 && ((PointsDiscount)buyer.Discounts[0]).Points == 100, "Apply before update");
+        Reject(() => buyer.Orders[0].DiscountAmount = double.NaN);
+        Reject(() => buyer.Orders[0].DiscountAmount = -1);
+        Directory.CreateDirectory("tmp/lab5");
+        using var form = new Form { ClientSize = new Size(1050, 650), ShowInTaskbar = false, StartPosition = FormStartPosition.Manual, Location = new Point(-3000, -3000) };
+        tab.Dock = DockStyle.Fill;
+        form.Controls.Add(tab);
+        form.Show();
+        Application.DoEvents();
+        using var bitmap = new Bitmap(form.Width, form.Height);
+        form.DrawToBitmap(bitmap, new Rectangle(Point.Empty, form.Size));
+        bitmap.Save("tmp/lab5/carts.png");
+        Check(checks.Height >= checks.ItemHeight * 7, "At least seven visible discounts");
+        form.Close();
+    }
+
 }

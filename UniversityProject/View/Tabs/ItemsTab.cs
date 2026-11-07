@@ -1,6 +1,4 @@
 using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 using System.ComponentModel;
 using System.Globalization;
 using UniversityProject.Model;

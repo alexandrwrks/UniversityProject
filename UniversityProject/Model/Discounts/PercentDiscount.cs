@@ -1,6 +1,4 @@
 using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 namespace UniversityProject.Model.Discounts;
 
 /// <summary>Процентная скидка на одну категорию: от 1 до 10%.</summary>

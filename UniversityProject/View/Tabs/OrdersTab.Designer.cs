@@ -1,6 +1,4 @@
-using UniversityProject.Model.Enums;
 using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 namespace UniversityProject.View.Tabs;
 
 partial class OrdersTab

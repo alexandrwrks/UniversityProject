@@ -1,6 +1,3 @@
-using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 using UniversityProject.Services;
 
 namespace UniversityProject.Model;

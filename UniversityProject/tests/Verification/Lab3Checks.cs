@@ -1,6 +1,5 @@
 using UniversityProject.Model.Enums;
 using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 using System.Globalization;
 using UniversityProject.Model;
 using UniversityProject.View.Controls;
@@ -84,7 +83,7 @@ internal static partial class Program
         var grid = Field<DataGridView>(orders, "OrdersDataGridView");
         Check(grid.Rows.Count == 1 && orders.Orders.Count == 1 && ReferenceEquals(grid.Rows[0].Tag, placed), "Orders did not refresh");
         Check(grid.ReadOnly && !grid.MultiSelect && !grid.AllowUserToAddRows && !grid.AllowUserToDeleteRows && !grid.AllowUserToResizeRows && !grid.AllowUserToOrderColumns && grid.Columns.Cast<DataGridViewColumn>().All(column => column.SortMode == DataGridViewColumnSortMode.NotSortable), "Grid restrictions");
-        Check(grid.Columns.Count == 6 && (string)grid.Rows[0].Cells[2].Value! == buyer2.Fullname, "Order columns");
+        Check(grid.Columns.Count == 7 && (string)grid.Rows[0].Cells[2].Value! == buyer2.Fullname, "Order columns");
         grid.CurrentCell = grid.Rows[0].Cells[0];
         grid.Rows[0].Selected = true;
         var status = Field<ComboBox>(orders, "StatusComboBox");

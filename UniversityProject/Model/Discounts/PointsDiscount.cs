@@ -1,6 +1,3 @@
-using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 namespace UniversityProject.Model.Discounts;
 
 /// <summary>Накопительная скидка: один балл равен одному рублю.</summary>

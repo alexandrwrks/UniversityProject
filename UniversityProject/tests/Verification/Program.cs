@@ -1,6 +1,4 @@
 using UniversityProject.Model.Enums;
-using UniversityProject.Model.Orders;
-using UniversityProject.Model.Discounts;
 using System.Reflection;
 using UniversityProject.Model;
 using UniversityProject.Services;
@@ -159,6 +157,7 @@ internal static partial class Program
         VerifyLab4(form);
         VerifyLab5Discounts();
         VerifyLab5Customers();
+        VerifyLab5Checkout();
         form.Close();
         Application.DoEvents();
         Application.ExitThread();
