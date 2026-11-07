@@ -4,7 +4,7 @@ using UniversityProject.Services;
 namespace UniversityProject.Model;
 
 /// <summary>Товар магазина с уникальным идентификатором.</summary>
-public class Item
+public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
 {
     /// <summary>Уникальный номер.</summary>
     private readonly int _id;
@@ -66,4 +66,20 @@ public class Item
 
     /// <summary>Возвращает краткое представление для списка.</summary>
     public override string ToString() => $"{Id}: {Name}";
+
+    /// <summary>Создаёт независимый товар с новым Id и теми же данными.</summary>
+    public object Clone() => new Item(Name, Info, Cost, Category);
+
+    /// <summary>Сравнивает товары по неизменяемому уникальному Id.</summary>
+    public bool Equals(Item? other) => other is not null && Id == other.Id;
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Item other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => Id.GetHashCode();
+
+    /// <summary>Сравнивает стоимость; любой товар больше null.</summary>
+    public int CompareTo(Item? other) => other is null ? 1 : Cost.CompareTo(other.Cost);
+
 }

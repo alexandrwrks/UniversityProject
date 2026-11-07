@@ -3,7 +3,7 @@ using UniversityProject.Services;
 namespace UniversityProject.Model;
 
 /// <summary>Составной адрес доставки.</summary>
-public class Address
+public class Address : ICloneable, IEquatable<Address>
 {
     /// <summary>Почтовый индекс из шести цифр.</summary>
     private int _index = 100000;
@@ -99,4 +99,19 @@ public class Address
 
     /// <summary>Возвращает почтовое представление адреса.</summary>
     public override string ToString() => $"{Index}, {Country}, {City}, {Street}, {Building}, {Apartment}";
+
+    /// <summary>Создаёт независимую копию всех составляющих адреса.</summary>
+    public object Clone() => new Address(Index, Country, City, Street, Building, Apartment);
+
+    /// <summary>Сравнивает все составляющие адреса с учётом регистра.</summary>
+    public bool Equals(Address? other) => other is not null &&
+        Index == other.Index && Country == other.Country && City == other.City &&
+        Street == other.Street && Building == other.Building && Apartment == other.Apartment;
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Address other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(Index, Country, City, Street, Building, Apartment);
+
 }

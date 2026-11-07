@@ -4,7 +4,7 @@ using UniversityProject.Services;
 namespace UniversityProject.Model.Orders;
 
 /// <summary>Заказ с отдельным списком ссылок на купленные товары.</summary>
-public class Order
+public class Order : IEquatable<Order>
 {
     /// <summary>Уникальный номер заказа.</summary>
     private readonly int _id;
@@ -69,9 +69,19 @@ public class Order
     {
         ArgumentNullException.ThrowIfNull(address);
         ArgumentNullException.ThrowIfNull(items);
-        _address = new Address(address.Index, address.Country, address.City, address.Street, address.Building, address.Apartment);
+        _address = (Address)address.Clone();
         _items = new List<Item>(items);
         _id = IdGenerator.GetNextOrderId();
         _creationDate = DateTime.Now;
     }
+
+    /// <summary>Сравнивает обычные и приоритетные заказы по общему уникальному Id.</summary>
+    public bool Equals(Order? other) => other is not null && Id == other.Id;
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Order other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => Id.GetHashCode();
+
 }

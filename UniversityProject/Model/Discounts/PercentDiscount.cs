@@ -2,7 +2,7 @@ using UniversityProject.Model.Enums;
 namespace UniversityProject.Model.Discounts;
 
 /// <summary>Процентная скидка на одну категорию: от 1 до 10%.</summary>
-public class PercentDiscount : IDiscount
+public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
 {
     /// <summary>Сумма покупок товаров данной категории.</summary>
     private double _purchases;
@@ -45,4 +45,8 @@ public class PercentDiscount : IDiscount
             if (item.Category == Category) sum += item.Cost;
         return sum;
     }
+
+    /// <summary>Сравнивает текущие проценты независимо от категории.</summary>
+    public int CompareTo(PercentDiscount? other) => other is null ? 1 : Percent.CompareTo(other.Percent);
+
 }

@@ -115,3 +115,7 @@ dotnet run --project UniversityProject.csproj -- --priority-demo
 ## Лабораторная №5 — полиморфизм
 
 Реализованы скидки IDiscount, PointsDiscount и PercentDiscount, управление скидками покупателей, выбор скидок при оформлении и Total заказов. Подробности, принятые правила округления и результаты проверки — в doc/Lab5.md. Диаграммы Practics5 находятся в doc/ObjectOrientedPractics.
+
+## Лабораторная №6 — стандартные интерфейсы
+
+Реализованы ICloneable, IEquatable<T> и IComparable<T> в требуемых классах. Правила копирования, равенства и результаты 227 проверок описаны в doc/Lab6.md. Диаграммы Practics6 находятся в doc/ObjectOrientedPractics.
